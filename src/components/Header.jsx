@@ -10,8 +10,8 @@ function Header() {
   useEffect(() => {
     async function getUser() {
       if (token) {
-        console.log("header use effect runn");
-        const data = await fetchData("users/current-user");
+        console.log("Verified Token");
+        const data = await fetchData("api/v1/users/current-user");
         if (data) {
           setUser(data);
         }
@@ -23,7 +23,7 @@ function Header() {
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <NavLink to={"/"}>
-        <span className="btn btn-ghost text-xl">VideoTube</span>
+        <span className="btn btn-ghost text-xl">VIDTUBE</span>
       </NavLink>
       <div className="flex gap-5 text-2xl">
         <div>
@@ -95,7 +95,7 @@ function Header() {
             <NavLink to={`/user`}>
               <div className="avatar cursor-pointer">
                 <div className="w-12 rounded-full">
-                  <img src={user?.avatar} />
+                  <img src={user?.avatar.url} />
                 </div>
               </div>
             </NavLink>

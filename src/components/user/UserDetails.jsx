@@ -18,9 +18,12 @@ function UserDetails() {
   // getting user
   const [user, setUser] = useState({});
   async function getUser() {
-    const data = await fetchData("users/current-user");
+    const data = await fetchData("api/v1/users/current-user");
     if (data) {
       setUser(data);
+      console.log(data);
+      console.log(`Cover Image is: ${data.coverImage?.url}`);
+      console.log(`Avatar Image is: ${data.avatar?.url}`);
     }
   }
   useEffect(() => {
@@ -43,14 +46,14 @@ function UserDetails() {
       console.log(formDataToSend);
       console.log(formData);
       await updateWithFormData(
-        "users/avatar",
+        "api/v1/users/avatar",
         formDataToSend,
         { credentials: "include" },
-        "PATCH"
+        "PATCH",
       );
     }
     if (formData.fullname && formData.email) {
-      await updateData("users/update-account", { ...formData }, "PATCH");
+      await updateData("api/v1/users/update-account", { ...formData }, "PATCH");
     }
     await getUser();
     setLoading(false);
@@ -69,12 +72,12 @@ function UserDetails() {
 
   const letLogout = async () => {
     try {
-      let data = await fetchData("users/logout");
+      let data = await fetchData("api/v1/users/logout");
       if (data) {
         sessionStorage.clear();
         navigate("/login");
       } else {
-        alert("First login to logout!");
+        alert("You need to be logged in to access this page!");
       }
     } catch (error) {
       console.log(error);
@@ -83,11 +86,15 @@ function UserDetails() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="relative">
-        <img src={user.coverImage} alt="" className="w-full h-52 relative" />
+        <img
+          src={user.coverImage?.url}
+          alt=""
+          className="w-full h-52 relative object-cover"
+        />
         <div className="absolute left-25 top-40">
           <div className="avatar">
             <div className="w-35 rounded-full border-4 border-white">
-              <img src={user?.avatar} />
+              <img src={user?.avatar?.url} />
             </div>
 
             {editing && (
@@ -130,17 +137,19 @@ function UserDetails() {
             </>
           ) : (
             <>
-            <button
-              className="btn btn-soft btn-primary m-2"
-              onClick={() => {
-                setEditing(true);
-                console.log(document.getElementById("fullname"));
-              }}
-            >
-              {" "}
-              <PencilLine size={20} /> Edit{" "}
-            </button>
-            <button className="btn btn-soft btn-error" onClick={letLogout}>Logout</button>
+              <button
+                className="btn btn-soft btn-primary m-2"
+                onClick={() => {
+                  setEditing(true);
+                  console.log(document.getElementById("fullname"));
+                }}
+              >
+                {" "}
+                <PencilLine size={20} /> Edit{" "}
+              </button>
+              <button className="btn btn-soft btn-error" onClick={letLogout}>
+                Logout
+              </button>
             </>
           )}
         </div>
@@ -198,9 +207,6 @@ function UserDetails() {
           </div>
         </form>
       </div>
-
-
-
 
       <div className="mt-10">
         <UserWatchHistory />

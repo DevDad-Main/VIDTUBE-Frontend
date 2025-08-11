@@ -3,12 +3,12 @@ import { NavLink } from "react-router";
 import { fetchData } from "./utils";
 
 function HomePage() {
-  document.title = `VideoTube`
+  document.title = `Vidtube`;
 
   const [videos, setVideos] = useState([]);
 
   const fetchVideos = async () => {
-    const data = await fetchData("videos/feed?page=1&limit=10");
+    const data = await fetchData("api/v1/videos/feed?page=1&limit=10");
     if (data) {
       setVideos(data.docs);
     }

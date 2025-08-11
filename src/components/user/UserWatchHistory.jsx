@@ -7,7 +7,7 @@ function UserWatchHistory() {
 
   const [videos, setVideos] = useState([]);
   const fetchVideo = async () => {
-    let data = await fetchData("users/watch-history");
+    let data = await fetchData("api/v1/users/watch-history");
     if (data) {
       setVideos(data);
     }
@@ -16,9 +16,9 @@ function UserWatchHistory() {
   useEffect(() => {
     fetchVideo();
   }, []);
-  return (videos.length > 0 ? (
+  return videos.length > 0 ? (
     <VideoComp title="Watch history" videos={videos} />
-  ) : null);
+  ) : null;
 }
 
 export default UserWatchHistory;

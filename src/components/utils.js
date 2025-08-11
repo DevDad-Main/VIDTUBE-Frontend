@@ -7,7 +7,7 @@ async function updateWithFormData(
   methodType = "POST",
 ) {
   try {
-    const response = await fetch(`http://localhost:3000/api/v1/users/${path}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/${path}`, {
       method: methodType,
       body: formData,
       ...credential,
@@ -37,12 +37,13 @@ async function updateWithFormData(
 
 async function fetchData(path, header = {}) {
   try {
-    const res = await fetch(`http://localhost:3000/api/v1/users/${path}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/${path}`, {
       // const res = await fetch(`${import.meta.env.VITE_API_URL}/${path}`, {
       method: "GET",
       credentials: "include",
       headers: header,
     });
+    console.log(res);
     const data = await res.json();
     if (data.success) {
       return data.data;

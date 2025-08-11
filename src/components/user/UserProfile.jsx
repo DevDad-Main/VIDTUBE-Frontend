@@ -5,13 +5,13 @@ import { NavLink } from "react-router";
 import { updateData } from "../utils";
 
 function UserProfile() {
-  document.title = 'VideoTube'
+  document.title = "VideoTube";
 
   const { username } = useParams();
   const [user, setUser] = useState({});
 
   const fetchProfile = async () => {
-    let data = await fetchData(`users/c/${username}`);
+    let data = await fetchData(`/api/v1/users/channel/${username}`);
     if (data) {
       console.log(data);
       setUser(data);

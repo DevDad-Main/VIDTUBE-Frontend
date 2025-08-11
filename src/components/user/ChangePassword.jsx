@@ -17,13 +17,15 @@ function ChangePassword() {
       ...prev,
       [name]: value,
     }));
-    console.log({ ...formData });
+    // console.log({ ...formData });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    let data = await updateData("users/change-password", { ...formData });
+    let data = await updateData("api/v1/users/change-password", {
+      ...formData,
+    });
     if (data) {
       alert("Password changed successfully");
       navigate("/");
