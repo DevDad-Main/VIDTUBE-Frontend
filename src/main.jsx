@@ -21,6 +21,7 @@ import {
   ChangePassword,
   UpdateUserAccount,
   UpdateUserAvatar,
+  UpdateUserCoverImage,
   PlaylistPage,
   Playlist,
   UserDetails,
@@ -110,6 +111,14 @@ const router = createBrowserRouter(
         element={
           <Protected>
             <UpdateUserAvatar />
+          </Protected>
+        }
+      />
+      <Route
+        path="update-coverImage"
+        element={
+          <Protected>
+            <UpdateUserCoverImage />
           </Protected>
         }
       />

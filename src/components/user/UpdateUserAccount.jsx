@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { updateData } from "../utils";
 
 function UpdateUserAccount() {
-  document.title = 'VideoTube - Update account'
+  document.title = "VideoTube - Update account";
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -22,9 +22,9 @@ function UpdateUserAccount() {
   const onSubmit = async (e) => {
     e.preventDefault();
     let data = await updateData(
-      "users/update-account",
+      "api/v1/users/update-account",
       { ...formData },
-      "PATCH"
+      "PATCH",
     );
     if (data) {
       navigate("/");

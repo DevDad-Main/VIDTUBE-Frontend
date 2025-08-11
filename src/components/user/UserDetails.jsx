@@ -13,6 +13,7 @@ function UserDetails() {
     fullname: "",
   });
   const [avatar, setAvatar] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // getting user
@@ -52,6 +53,20 @@ function UserDetails() {
         "PATCH",
       );
     }
+
+    if (coverImage) {
+      const formDataToSend = new FormData();
+      formDataToSend.append("coverImage", coverImage);
+      console.log(coverImage);
+      console.log(formDataToSend);
+      console.log(formData);
+      await updateWithFormData(
+        "api/v1/users/cover-image",
+        formDataToSend,
+        { credentials: "include" },
+        "PATCH",
+      );
+    }
     if (formData.fullname && formData.email) {
       await updateData("api/v1/users/update-account", { ...formData }, "PATCH");
     }
@@ -66,6 +81,16 @@ function UserDetails() {
     input.accept = "image/*";
     input.onchange = (e) => {
       setAvatar(e.target.files[0]);
+    };
+    input.click();
+  };
+
+  const handleFileCoverImageUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      setCoverImage(e.target.files[0]);
     };
     input.click();
   };
@@ -91,6 +116,16 @@ function UserDetails() {
           alt=""
           className="w-full h-52 relative object-cover"
         />
+
+        {editing && (
+          <div
+            className="absolute right-2 bottom-2 bg-blue-500 text-white rounded-4xl h-8 w-8 flex-center cursor-pointer"
+            onClick={handleFileCoverImageUpload}
+          >
+            <Camera size={20} />
+          </div>
+        )}
+
         <div className="absolute left-25 top-40">
           <div className="avatar">
             <div className="w-35 rounded-full border-4 border-white">

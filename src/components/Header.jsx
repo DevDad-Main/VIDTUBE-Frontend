@@ -95,7 +95,7 @@ function Header() {
             <NavLink to={`/user`}>
               <div className="avatar cursor-pointer">
                 <div className="w-12 rounded-full">
-                  <img src={user?.avatar.url} />
+                  <img src={user?.avatar?.url} />
                 </div>
               </div>
             </NavLink>

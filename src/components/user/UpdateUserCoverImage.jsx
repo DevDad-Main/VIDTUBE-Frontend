@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { updateWithFormData } from "../utils";
 
-function UpdateUserAvatar() {
+function UpdateUserCoverImage() {
   document.title = "VideoTube - Update account";
 
   const navigate = useNavigate();
-  const [avatar, setAvatar] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
-    formDataToSend.append("avatar", avatar);
+    formDataToSend.append("coverImage", coverImage);
     const data = await updateWithFormData(
-      "api/v1/users/avatar",
+      "api/v1/users/cover-image",
       formDataToSend,
       { credentials: "include" },
       "PATCH",
     );
 
     if (data) {
-      alert("Avatar updated successfully");
+      alert("Cover Image updated successfully");
       navigate("/");
     }
   };
@@ -28,19 +28,19 @@ function UpdateUserAvatar() {
     <div className="flex-center py-7">
       <form onSubmit={onSubmit}>
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-          <legend className="fieldset-legend">Update Avatar</legend>
+          <legend className="fieldset-legend">Update Cover Image</legend>
 
-          <label className="label">Avatar</label>
+          <label className="label">Cover Image</label>
           <input
             type="file"
             className="file-input-info"
             placeholder="Name"
             name="avatar"
-            onChange={(e) => setAvatar(e.target.files[0])}
+            onChange={(e) => setCoverImage(e.target.files[0])}
           />
 
           <button type="submit" className="btn btn-sm">
-            Update Avatar
+            Update Cover Image
           </button>
         </fieldset>
       </form>
@@ -48,4 +48,4 @@ function UpdateUserAvatar() {
   );
 }
 
-export default UpdateUserAvatar;
+export default UpdateUserCoverImage;
