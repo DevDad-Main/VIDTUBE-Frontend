@@ -23,7 +23,7 @@ function HomePage() {
     <div className="flex-center flex-wrap gap-6 p-4">
       {videos?.map((video) => (
         <div key={video._id}>
-          <div className="card bg-base-100 w-96 h-[400px] shadow-2xl">
+          <div className="card bg-base-100 w-96 h-[400px] shadow-2xl transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
             <NavLink to={`/video/${video._id}`} className="cursor-pointer">
               <figure>
                 <div className="w-[600px] h-[250px]">

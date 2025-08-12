@@ -28,13 +28,15 @@ function Header() {
   }, [navigate, token]);
 
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-lg">
       <NavLink to={"/"}>
-        <span className="btn btn-ghost text-xl">VIDTUBE</span>
+        <span className="btn btn-ghost text-xl transition-transform duration-300 hover:scale-105 hover:shadow-sm">
+          VIDTUBE
+        </span>
       </NavLink>
       <div className="flex gap-5 text-2xl">
         <div>
-          <div className="dropdown">
+          <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm">
             <div tabIndex={0} role="button" className="btn btn-ghost m-1">
               Videos
             </div>
@@ -57,7 +59,7 @@ function Header() {
         </div>
 
         <div>
-          <div className="dropdown">
+          <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm">
             <div tabIndex={0} role="button" className="btn btn-ghost m-1">
               Tweet
             </div>
@@ -76,7 +78,7 @@ function Header() {
         </div>
 
         <div>
-          <div className="dropdown">
+          <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm">
             <div tabIndex={0} role="button" className="btn btn-ghost m-1">
               User
             </div>
@@ -98,7 +100,7 @@ function Header() {
         </div>
 
         {token ? (
-          <div className="absolute right-3">
+          <div className="absolute right-3 transition-transform duration-300 hover:scale-105 hover:shadow-sm">
             <NavLink to={`/user`}>
               <div className="avatar cursor-pointer">
                 <div className="w-12 rounded-full">
