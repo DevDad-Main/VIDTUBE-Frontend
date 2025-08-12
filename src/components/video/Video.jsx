@@ -15,7 +15,7 @@ function Video() {
   const navigate = useNavigate();
 
   const fetchVideo = async () => {
-    let data = await fetchData(`videos/s/${videoId}`);
+    let data = await fetchData(`api/v1/videos/s/${videoId}`);
     if (data) {
       setData(data);
       setComments(data.comments);
@@ -30,7 +30,7 @@ function Video() {
   const updateComment = async (e) => {
     e.preventDefault();
     try {
-      let data = await updateData(`comment/add/${videoId}`, {
+      let data = await updateData(`api/v1/videos/comment/add/${videoId}`, {
         content: sendComment,
       });
       if (data) {
@@ -43,7 +43,7 @@ function Video() {
   };
 
   const deleteVideo = () => {
-    let data = updateData(`videos/s/${videoId}`, {}, "DELETE");
+    let data = updateData(`api/v1/videos/s/${videoId}`, {}, "DELETE");
     if (data) {
       alert("data deleted successfully");
       navigate("/");
@@ -51,7 +51,7 @@ function Video() {
   };
 
   const updateLike = async () => {
-    let data = await updateData(`like/video`, {
+    let data = await updateData(`api/v1/videos/like/video`, {
       id: videoId,
     });
     if (data) {

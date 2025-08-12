@@ -10,7 +10,8 @@ function HomePage() {
   const fetchVideos = async () => {
     const data = await fetchData("api/v1/videos/feed?page=1&limit=10");
     if (data) {
-      setVideos(data.docs);
+      console.log(data);
+      setVideos(data);
     }
   };
 
@@ -20,14 +21,14 @@ function HomePage() {
 
   return (
     <div className="flex-center flex-wrap gap-6 p-4">
-      {videos.map((video) => (
+      {videos?.map((video) => (
         <div key={video._id}>
-          <div className="card bg-base-100 w-96 h-[400px] shadow-sm">
+          <div className="card bg-base-100 w-96 h-[400px] shadow-2xl">
             <NavLink to={`/video/${video._id}`} className="cursor-pointer">
               <figure>
                 <div className="w-[600px] h-[250px]">
                   <img
-                    src={video.thumbnail}
+                    src={video.thumbnail.url}
                     alt="Shoes"
                     className="w-[600px] h-[250px] object-cover rounded-t-lg"
                   />

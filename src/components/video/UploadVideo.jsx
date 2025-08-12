@@ -11,8 +11,8 @@ function UploadVideo() {
     title: "",
     description: "",
     isPublished: true,
-    video: "",
-    thumbnail: "",
+    video: null,
+    thumbnail: null,
   });
 
   const handleInput = (e) => {
@@ -33,8 +33,8 @@ function UploadVideo() {
     formDataToSend.append("video", formData.video);
     formDataToSend.append("thumbnail", formData.thumbnail);
 
-    console.log(formDataToSend);
-    console.log(formData);
+    console.log("Form Data To Send: ", formDataToSend);
+    console.log("Form Data: ", formData);
     const data = await updateWithFormData(
       "api/v1/videos/upload",
       formDataToSend,
@@ -103,7 +103,7 @@ function UploadVideo() {
               }}
             />
 
-            <label className="label">Cover image</label>
+            <label className="label">Video</label>
             <input
               type="file"
               className="file-input-info"
