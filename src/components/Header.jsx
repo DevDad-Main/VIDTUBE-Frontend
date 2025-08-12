@@ -57,58 +57,75 @@ function Header() {
             </ul>
           </div>
         </div>
-
-        <div>
-          <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm">
-            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-              Tweet
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-            >
-              <li>
-                <NavLink to={"/tweet"}>Read tweets</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/add-tweet"}>Add tweet</NavLink>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div>
-          <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm">
-            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-              User
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-            >
-              <li>
-                <NavLink to={"/change-password"}>Change Password</NavLink>
-              </li>
-              {/* <li>
-                <NavLink to={"/update-account"}>Update Account</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/update-avatar"}>Update Avatar</NavLink>
-              </li> */}
-            </ul>
-          </div>
-        </div>
-
+        {/* <div> */}
+        {/*   <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm"> */}
+        {/*     <div tabIndex={0} role="button" className="btn btn-ghost m-1"> */}
+        {/*       Tweet */}
+        {/*     </div> */}
+        {/*     <ul */}
+        {/*       tabIndex={0} */}
+        {/*       className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" */}
+        {/*     > */}
+        {/*       <li> */}
+        {/*         <NavLink to={"/tweet"}>Read tweets</NavLink> */}
+        {/*       </li> */}
+        {/*       <li> */}
+        {/*         <NavLink to={"/add-tweet"}>Add tweet</NavLink> */}
+        {/*       </li> */}
+        {/*     </ul> */}
+        {/*   </div> */}
+        {/* </div> */}
+        {/* <div> */}
+        {/*   <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm"> */}
+        {/*     <div tabIndex={0} role="button" className="btn btn-ghost m-1"> */}
+        {/*       User */}
+        {/*     </div> */}
+        {/*     <ul */}
+        {/*       tabIndex={0} */}
+        {/*       className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" */}
+        {/*     > */}
+        {/*       <li> */}
+        {/*         <NavLink to={"/change-password"}>Change Password</NavLink> */}
+        {/*       </li> */}
+        {/*       {/* <li> */}
+        {/*         <NavLink to={"/update-account"}>Update Account</NavLink> */}
+        {/*       </li> */}
+        {/*       <li> */}
+        {/*         <NavLink to={"/update-avatar"}>Update Avatar</NavLink> */}
+        {/*       </li> */}
+        {/*     </ul> */}
+        {/*   </div> */}
+        {/* </div> */}
         {token ? (
-          <div className="absolute right-3 transition-transform duration-300 hover:scale-105 hover:shadow-sm">
-            <NavLink to={`/user`}>
+          <div className="dropdown absolute right-0 transition-transform duration-300 hover:scale-105 hover:shadow-sm">
+            <div tabIndex={0} role="button">
               <div className="avatar cursor-pointer">
                 <div className="w-12 rounded-full">
                   <img src={user?.avatar?.url} />
                 </div>
               </div>
-            </NavLink>
-            {/* <button className="btn btn-neutral text-lg" onClick={letLogout}>Logout</button> */}
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm right-0"
+            >
+              <li>
+                <NavLink to={"/user"}>View Profile</NavLink>
+              </li>
+              <li>
+                <NavLink to={"/change-password"}>Change Password</NavLink>
+              </li>
+              {/* <li> */}
+              {/*   <NavLink to={`/user`}> */}
+              {/*     <div className="avatar cursor-pointer"> */}
+              {/*       <div className="w-12 rounded-full"> */}
+              {/*         <img src={user?.avatar?.url} /> */}
+              {/*       </div> */}
+              {/*     </div> */}
+              {/*   </NavLink> */}
+              {/* </li> */}
+              {/* <button className="btn btn-neutral text-lg" onClick={letLogout}>Logout</button> */}
+            </ul>
           </div>
         ) : (
           <div className="absolute right-3 flex gap-3">
