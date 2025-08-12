@@ -8,6 +8,7 @@ function Video() {
   document.title = `VideoTube - Explore videos`;
 
   const { videoId = "1" } = useParams();
+  const [videoFileUrl, setVideoFile] = useState();
   const [data, setData] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -15,8 +16,10 @@ function Video() {
   const navigate = useNavigate();
 
   const fetchVideo = async () => {
-    let data = await fetchData(`api/v1/videos/s/${videoId}`);
+    let data = await fetchData(`api/v1/videos/${videoId}`);
     if (data) {
+      console.log(data);
+      setVideoFile(data.videoFile?.url || "");
       setData(data);
       setComments(data.comments);
       setLikes(data.likes);
@@ -43,7 +46,7 @@ function Video() {
   };
 
   const deleteVideo = () => {
-    let data = updateData(`api/v1/videos/s/${videoId}`, {}, "DELETE");
+    let data = updateData(`api/v1/videos/${videoId}`, {}, "DELETE");
     if (data) {
       alert("data deleted successfully");
       navigate("/");
@@ -61,12 +64,20 @@ function Video() {
 
   return (
     <div className="p-4 pl-10">
-      <div className="m-auto w-1/2">
+      <div className="m-auto w-full">
         <div className="flex-center flex-col gap-5">
-          <video width="740" height="240" controls autoPlay name="media">
-            {/* <source src={`http://res.cloudinary.com/ddwgvjj4a/video/upload/v1749806055/gk3xv2l01nywgmifmlvl.mp4`} type="video/mp4" /> */}
-            <source src={`url(${data.videoFile})`} type="video/mp4" />
-          </video>
+          {videoFileUrl && (
+            <video
+              className="w-full max-h-[80vh] object-contain"
+              controls
+              autoPlay
+              name="media"
+            >
+              {/* <source src={`http://res.cloudinary.com/ddwgvjj4a/video/upload/v1749806055/gk3xv2l01nywgmifmlvl.mp4`} type="video/mp4" /> */}
+              {/* <source src={data?.videoFile?.url} type="video/mp4" /> */}
+              <source src={videoFileUrl} type="video/mp4" />
+            </video>
+          )}
         </div>
 
         <div className="mt-3 flex justify-start items-center gap-4">
