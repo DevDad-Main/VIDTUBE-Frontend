@@ -35,9 +35,13 @@ function UploadVideo() {
 
     console.log(formDataToSend);
     console.log(formData);
-    const data = await updateWithFormData("videos/upload", formDataToSend, {
-      credentials: "include",
-    });
+    const data = await updateWithFormData(
+      "api/v1/videos/upload",
+      formDataToSend,
+      {
+        credentials: "include",
+      },
+    );
     setLoading(false);
 
     if (data) {

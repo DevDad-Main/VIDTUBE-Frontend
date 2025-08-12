@@ -14,7 +14,14 @@ function Header() {
         const data = await fetchData("api/v1/users/current-user");
         if (data) {
           setUser(data);
+        } else {
+          // token exists but backend says it's invalid/expired
+          sessionStorage.removeItem("token");
+          navigate("/login");
         }
+      } else {
+        // no token at all
+        navigate("/login");
       }
     }
     getUser();
