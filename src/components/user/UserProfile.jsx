@@ -9,12 +9,14 @@ function UserProfile() {
 
   const { username } = useParams();
   const [user, setUser] = useState({});
+  const [userCoverImage, setCoverImage] = useState();
 
   const fetchProfile = async () => {
-    let data = await fetchData(`/api/v1/users/channel/${username}`);
+    let data = await fetchData(`api/v1/users/channel/${username}`);
     if (data) {
       console.log(data);
       setUser(data);
+      setCoverImage(data.coverImage?.url);
     }
   };
 
@@ -56,20 +58,23 @@ function UserProfile() {
           </form>
           <div className="p-2 flex-center">
             <img
-              src={user.avatar}
+              src={user.avatar?.url}
               alt="avatar"
               className="border-4 border-white"
             />
           </div>
         </div>
       </dialog>
-      <div
-        className="h-48 md:h-64 bg-cover bg-center"
-        style={{ backgroundImage: `url(${user.coverImage})` }}
-      />
+
+      {userCoverImage && (
+        <div
+          className="h-48 md:h-64 bg-cover bg-center"
+          style={{ backgroundImage: `url(${userCoverImage})` }}
+        />
+      )}
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-start  gap-4">
         <img
-          src={user.avatar}
+          src={user.avatar?.url}
           alt="avatar"
           className="w-24 h-24 rounded-full border-4 border-white -mt-16 md:mt-0 md:-translate-y-12 cursor-pointer"
           onClick={() => document.getElementById("my_modal_3").showModal()}
@@ -107,12 +112,12 @@ function UserProfile() {
 
       <div className="max-w-6xl mx-auto px-4 py-6">
         <h3 className="text-xl font-semibold mb-4">Uploaded Videos</h3>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
           {user?.videos?.map((video) => (
             <NavLink key={video?._id} to={`/video/${video?._id}`}>
-              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+              <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-lg">
                 <img
-                  src={video?.thumbnail}
+                  src={video?.thumbnail.url}
                   alt="thumbnail"
                   className="w-full h-36 object-cover"
                 />

@@ -41,7 +41,7 @@ function Header() {
     }
   };
   return (
-    <div className="navbar bg-base-100 shadow-lg">
+    <div className="navbar bg-base-100 shadow-lg z-100">
       <NavLink to={"/"}>
         <span className="btn btn-ghost text-xl transition-transform duration-300 hover:scale-105 hover:shadow-sm">
           VIDTUBE

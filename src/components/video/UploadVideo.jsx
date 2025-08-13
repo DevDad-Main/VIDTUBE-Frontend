@@ -50,7 +50,9 @@ function UploadVideo() {
   };
 
   return loading ? (
-    <span className="loading loading-bars loading-xl"></span>
+    <div className="flex items-center justify-center min-h-screen">
+      <span className="loading loading-bars loading-xl"></span>
+    </div>
   ) : (
     <>
       <div className="flex-center py-7">

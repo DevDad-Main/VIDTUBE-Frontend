@@ -105,10 +105,10 @@ function Video() {
         </div>
       </div>
 
-      <div className="flex justify-start items-start text-2xl font-semibold">
+      <div className="flex justify-start items-start text-2xl font-semibold pb-2">
         {data.title}
       </div>
-      <div className="flex justify-start items-start text-xl font-normal">
+      <div className="flex justify-start items-start text-xl font-normal pb-2">
         {data?.description}
       </div>
 
