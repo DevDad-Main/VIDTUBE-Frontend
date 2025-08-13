@@ -1,6 +1,6 @@
 import { updateData } from "../utils";
 
-function CommentsComp({ comments,setComments }) {
+function CommentsComp({ comments, setComments }) {
   const currentDate = (d) => {
     const date = new Date(d);
     return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
@@ -8,10 +8,14 @@ function CommentsComp({ comments,setComments }) {
 
   const updateLike = async (id) => {
     let data = await updateData(`like/comment`, {
-      id
+      id,
     });
     if (data) {
-      setComments((prev)=>(prev.map((comment)=> comment._id === id ? {...comment,likes:data.likes} :comment)));
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment._id === id ? { ...comment, likes: data.likes } : comment,
+        ),
+      );
     }
   };
 
@@ -28,11 +32,11 @@ function CommentsComp({ comments,setComments }) {
               <div>
                 <img
                   className="size-10 rounded-box"
-                  src={comment?.owner?.avatar}
+                  src={comment?.owner?.avatar?.url}
                 />
               </div>
               <div>
-                <div>{comment?.owner?.fullname}</div>
+                <div>{comment?.owner?.username}</div>
                 <div className="text-xs uppercase font-semibold opacity-60">
                   {`${currentDate(comment?.createdAt)}`}
                 </div>
