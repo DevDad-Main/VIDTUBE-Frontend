@@ -110,10 +110,10 @@ function Header() {
         {/*   </div> */}
         {/* </div> */}
         {token ? (
-          <div className="dropdown absolute right-0 transition-transform duration-300 hover:scale-105 hover:shadow-sm">
+          <div className="dropdown absolute right-3 transition-transform duration-300 hover:scale-105 hover:shadow-sm">
             <div tabIndex={0} role="button">
               <div className="avatar cursor-pointer">
-                <div className="w-12 rounded-full">
+                <div className="border-2 border-white w-12 rounded-full">
                   <img src={user?.avatar?.url} />
                 </div>
               </div>

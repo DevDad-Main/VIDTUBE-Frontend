@@ -52,16 +52,16 @@ async function fetchData(path, header = {}) {
       toast.error(`${data.message}`, {
         position: "top-center",
         autoClose: 3000,
-        theme: "light",
+        theme: "dark",
       });
       return null;
     }
   } catch (error) {
     console.log(error);
-    toast.warn(`Try again after sometime`, {
+    toast.warn(`Please try again in a moment..`, {
       position: "top-center",
       autoClose: 3000,
-      theme: "light",
+      theme: "dark",
     });
   }
 }
@@ -81,7 +81,7 @@ async function updateData(path, content, methodType = "POST") {
       toast.success(`${data.message}`, {
         position: "top-center",
         autoClose: 3000,
-        theme: "light",
+        theme: "dark",
       });
       return data.data;
     } else {
@@ -89,16 +89,16 @@ async function updateData(path, content, methodType = "POST") {
       toast.error(`${data.message}`, {
         position: "top-center",
         autoClose: 3000,
-        theme: "light",
+        theme: "dark",
       });
       return null;
     }
   } catch (error) {
     console.log(error);
-    toast.warn(`Try after sometime`, {
+    toast.warn(`Please try again in a moment..`, {
       position: "top-center",
       autoClose: 3000,
-      theme: "light",
+      theme: "dark",
     });
   }
 }

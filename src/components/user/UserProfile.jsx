@@ -67,20 +67,40 @@ function UserProfile() {
       </dialog>
 
       {userCoverImage && (
-        <div
-          className="h-48 md:h-64 bg-cover bg-center"
-          style={{ backgroundImage: `url(${userCoverImage})` }}
-        />
+        <>
+          <dialog id="my_modal_4" className="modal">
+            <div className="modal-box">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                  ✕
+                </button>
+              </form>
+              <div className="p-2 flex-center">
+                <img
+                  src={user.coverImage?.url}
+                  alt="avatar"
+                  className="border-4 border-white"
+                />
+              </div>
+            </div>
+          </dialog>
+          <div
+            className="h-48 md:h-64 bg-cover bg-center"
+            style={{ backgroundImage: `url(${userCoverImage})` }}
+            onClick={() => document.getElementById("my_modal_4").showModal()}
+          />
+        </>
       )}
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-start  gap-4">
         <img
           src={user.avatar?.url}
           alt="avatar"
-          className="w-24 h-24 rounded-full border-4 border-white -mt-16 md:mt-0 md:-translate-y-12 cursor-pointer"
+          className="w-24 h-24 object-cover rounded-full border-4 border-white -mt-16 md:mt-0 md:-translate-y-12 cursor-pointer"
           onClick={() => document.getElementById("my_modal_3").showModal()}
         />
         <div className="flex-1 text-center md:text-left">
-          <h2 className="text-2xl font-bold">{user.fullname}</h2>
+          <h2 className="text-2xl font-bold">{user.username}</h2>
           <div className="text-sm text-gray-600 flex gap-4 justify-center md:justify-start mt-1">
             <span>{user.subscribersCount} Subscribers</span>
             <span>{user.channelsSubscribedToCount} Subscribed</span>

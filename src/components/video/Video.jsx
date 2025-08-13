@@ -24,7 +24,7 @@ function Video() {
       setVideoFile(data._doc.videoFile?.url || "");
       setData(data._doc);
       setComments(data.comments);
-      setLikes(data.likes);
+      setLikes(data._doc.likes);
     }
   };
 
@@ -57,10 +57,11 @@ function Video() {
   };
 
   const updateLike = async () => {
-    let data = await updateData(`api/v1/videos/like/video`, {
+    let data = await updateData(`api/v1/likes/video/${videoId}`, {
       id: videoId,
     });
     if (data) {
+      console.log("Like Route Data: ", data);
       setLikes(data.likes);
     }
   };
@@ -108,7 +109,7 @@ function Video() {
       <div className="flex justify-start items-start text-2xl font-semibold pb-2">
         {data.title}
       </div>
-      <div className="flex justify-start items-start text-xl font-normal pb-2">
+      <div className="flex justify-start items-start text-xl font-normal">
         {data?.description}
       </div>
 
