@@ -19,8 +19,8 @@ function Video() {
     let data = await fetchData(`api/v1/videos/${videoId}`);
     if (data) {
       console.log(data);
-      setVideoFile(data.videoFile?.url || "");
-      setData(data);
+      setVideoFile(data._doc.videoFile?.url || "");
+      setData(data._doc);
       setComments(data.comments);
       setLikes(data.likes);
     }
@@ -48,6 +48,7 @@ function Video() {
   const deleteVideo = () => {
     let data = updateData(`api/v1/videos/${videoId}`, {}, "DELETE");
     if (data) {
+      console.log(data);
       alert("data deleted successfully");
       navigate("/");
     }
