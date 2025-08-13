@@ -41,10 +41,10 @@ function HomePage() {
                 <div className="card-actions justify-start items-center">
                   <img
                     className="mask mask-circle"
-                    src={video?.owner?.avatar}
-                    width={"30"}
+                    src={video.owner?.avatar?.url}
+                    width={"60"}
                   />
-                  <p>{video?.owner?.fullname}</p>
+                  <p>{video.owner?.username}</p>
                 </div>
               </div>
             </NavLink>

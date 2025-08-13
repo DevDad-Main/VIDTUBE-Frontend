@@ -9,7 +9,7 @@ function Video() {
 
   const { videoId = "1" } = useParams();
   const [videoFileUrl, setVideoFile] = useState();
-  const [isOwner, setOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const [data, setData] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -20,7 +20,7 @@ function Video() {
     let data = await fetchData(`api/v1/videos/${videoId}`);
     if (data) {
       console.log(data);
-      setOwner(data.isOwner);
+      setIsOwner(data.isOwner);
       setVideoFile(data._doc.videoFile?.url || "");
       setData(data._doc);
       setComments(data.comments);
@@ -112,18 +112,18 @@ function Video() {
         {data?.description}
       </div>
 
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-row justify-between items-center mt-4">
         <div className="card-actions justify-start items-center">
           <NavLink
-            to={`/profile/${data?.owner?.username}`}
+            to={`/profile/${data.owner?.username}`}
             className="flex gap-2 items-center"
           >
             <img
               className="mask mask-circle"
-              src={data?.owner?.avatar}
-              width={"30"}
+              src={data.owner?.avatar?.url}
+              width={"60"}
             />
-            <p className="font-semibold">{data?.owner?.fullname}</p>
+            <p className="font-semibold">{data.owner?.username}</p>
           </NavLink>
         </div>
       </div>
@@ -141,11 +141,11 @@ function Video() {
               <input
                 type="text"
                 className="input join-item sm:w-lg md:w-lg lg:w-xl w-5xl"
-                placeholder="Product name"
+                placeholder="Write your comment here..."
                 value={sendComment}
                 onChange={(e) => setSendComment(e.target.value)}
               />
-              <button className="btn join-item">save</button>
+              <button className="btn join-item">Save</button>
             </form>
           </div>
         </fieldset>

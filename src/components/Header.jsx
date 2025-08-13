@@ -27,6 +27,19 @@ function Header() {
     getUser();
   }, [navigate, token]);
 
+  const letLogout = async () => {
+    try {
+      let data = await fetchData("api/v1/users/logout");
+      if (data) {
+        sessionStorage.clear();
+        navigate("/login");
+      } else {
+        alert("You need to be logged in to access this page!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="navbar bg-base-100 shadow-lg">
       <NavLink to={"/"}>
@@ -114,6 +127,10 @@ function Header() {
               </li>
               <li>
                 <NavLink to={"/change-password"}>Change Password</NavLink>
+              </li>
+              <li>
+                <button onClick={letLogout}>Logout</button>
+                {/* <NavLink to={"/logout"}>Logout</NavLink> */}
               </li>
               {/* <li> */}
               {/*   <NavLink to={`/user`}> */}
