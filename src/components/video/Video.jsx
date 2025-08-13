@@ -95,8 +95,11 @@ function Video() {
           </button>
           <AddToPlaylistBtn id={data._id} />
           {isOwner ? (
-            <button className="btn btn-error" onClick={deleteVideo}>
-              delete
+            <button
+              className="btn btn-error absolute right-1"
+              onClick={deleteVideo}
+            >
+              Delete Video
             </button>
           ) : null}
         </div>
