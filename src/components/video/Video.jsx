@@ -9,6 +9,7 @@ function Video() {
 
   const { videoId = "1" } = useParams();
   const [videoFileUrl, setVideoFile] = useState();
+  const [isOwner, setOwner] = useState(false);
   const [data, setData] = useState({});
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
@@ -19,6 +20,7 @@ function Video() {
     let data = await fetchData(`api/v1/videos/${videoId}`);
     if (data) {
       console.log(data);
+      setOwner(data.isOwner);
       setVideoFile(data._doc.videoFile?.url || "");
       setData(data._doc);
       setComments(data.comments);
@@ -92,7 +94,7 @@ function Video() {
             {likes} Likes
           </button>
           <AddToPlaylistBtn id={data._id} />
-          {data.isOwner ? (
+          {isOwner ? (
             <button className="btn btn-error" onClick={deleteVideo}>
               delete
             </button>
