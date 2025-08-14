@@ -1,7 +1,11 @@
 import { updateData } from "../utils";
-import { FaTrash } from "react-icons/fa";
+// import { FaTrash } from "react-icons/fa";
+import { useState } from "react";
+import { FaEllipsisV, FaTrash, FaEdit } from "react-icons/fa";
 
 function CommentsComp({ comments, setComments }) {
+  const [openMenu, setOpenMenu] = useState();
+
   const currentDate = (d) => {
     const date = new Date(d);
     return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
@@ -20,17 +24,27 @@ function CommentsComp({ comments, setComments }) {
     }
   };
 
+  // const deleteVideo = () => {
+  //   let data = updateData(`api/v1/videos/${videoId}`, {}, "DELETE");
+  //   if (data) {
+  //     console.log(data);
+  //     alert("data deleted successfully");
+  //     navigate("/");
+  //   }
+  // };
   const deleteComment = async (id) => {
     if (!window.confirm("Are you sure you want to delete this comment?"))
       return;
 
     try {
-      const res = await fetch(`/api/v1/comments/delete/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
+      const data = updateData(
+        `api/v1/comments/delete/${id}`,
+        { id: id },
+        "DELETE",
+      );
 
-      if (res.ok) {
+      if (data) {
+        console.log(data);
         // Remove the deleted comment from state
         setComments((prev) => prev.filter((comment) => comment._id !== id));
       } else {
@@ -44,26 +58,38 @@ function CommentsComp({ comments, setComments }) {
   return (
     <div>
       {comments?.length !== 0 ? (
-        <ul className="list bg-base-100 rounded-box shadow-lg">
-          <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
+        <ul className="space-y-4">
+          {" "}
+          {/* spacing between bubbles */}
+          <li className="p-2 text-xs opacity-60 tracking-wide">
             Most recent comments
           </li>
-
           {comments?.map((comment) => (
-            <li className="list-row" key={comment._id}>
-              <div>
-                <img
-                  className="size-10 rounded-box"
-                  src={comment?.owner?.avatar?.url}
-                />
-              </div>
-              <div>
-                <div>{comment?.owner?.username}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">
-                  {`${currentDate(comment?.createdAt)}`}
+            <li
+              key={comment._id}
+              className="flex items-start gap-3 bg-base-200 p-3 rounded-xl shadow-lg"
+            >
+              {/* Avatar */}
+              <img
+                className="size-10 rounded-full"
+                src={comment?.owner?.avatar?.url}
+                alt={comment?.owner?.username}
+              />
+
+              {/* Bubble Content */}
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold">
+                    {comment?.owner?.username}
+                  </span>
+                  <span className="text-xs uppercase font-semibold opacity-60">
+                    {currentDate(comment?.createdAt)}
+                  </span>
                 </div>
+                <p className="text-sm mt-1">{comment?.content}</p>
               </div>
-              <p className="list-col-wrap text-xs">{comment?.content}</p>
+
+              {/* Actions */}
               <div className="flex items-center gap-2 ml-auto">
                 <button
                   className="btn btn-square btn-ghost"
@@ -88,16 +114,42 @@ function CommentsComp({ comments, setComments }) {
                   </svg>
                   {comment?.likes}
                 </button>
-                {/* Delete Button — only if owner */}
-                {comment?.isOwner && (
+
+                {/* Actions */}
+                <div className="relative ml-auto">
                   <button
-                    className="btn btn-square btn-ghost text-red-500"
-                    onClick={() => deleteComment(comment._id)}
-                    title="Delete comment"
+                    className="btn btn-square btn-ghost"
+                    onClick={() =>
+                      setOpenMenu(openMenu === comment._id ? null : comment._id)
+                    }
                   >
-                    <FaTrash />
+                    <FaEllipsisV />
                   </button>
-                )}
+
+                  {/* Dropdown */}
+                  {openMenu === comment._id && (
+                    <div className="absolute right-0 mt-2 w-32 bg-base-100 rounded-lg shadow-lg border z-50">
+                      <button
+                        className="flex items-center gap-2 w-full px-3 py-2 hover:bg-base-200 text-sm"
+                        onClick={() => {
+                          editComment(comment._id);
+                          setOpenMenu(null);
+                        }}
+                      >
+                        <FaEdit className="text-blue-500" /> Edit
+                      </button>
+                      <button
+                        className="flex items-center gap-2 w-full px-3 py-2 hover:bg-base-200 text-sm text-red-500"
+                        onClick={() => {
+                          deleteComment(comment._id);
+                          setOpenMenu(null);
+                        }}
+                      >
+                        <FaTrash /> Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </li>
           ))}
