@@ -140,7 +140,7 @@ function Video() {
             <AddToPlaylistBtn id={data._id} />
             {isOwner ? (
               <button
-                className="btn btn-error absolute right-1"
+                className="btn btn-error absolute right-4"
                 onClick={deleteVideo}
               >
                 Delete Video
