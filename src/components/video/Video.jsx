@@ -30,10 +30,6 @@ function Video() {
   };
 
   useEffect(() => {
-    fetchVideo();
-  }, []);
-
-  useEffect(() => {
     const fetchComments = async () => {
       try {
         let data = await fetchData(`api/v1/comments/comments/${videoId}`);
@@ -49,6 +45,9 @@ function Video() {
     fetchComments();
   }, [videoId]);
 
+  useEffect(() => {
+    fetchVideo();
+  }, []);
   const updateComment = async (e) => {
     e.preventDefault();
     try {
