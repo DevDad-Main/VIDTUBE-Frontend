@@ -10,7 +10,7 @@ function AddToPlaylist({ id }) {
   });
   const navigate = useNavigate();
   const fetchPlaylists = async () => {
-    const data = await fetchData(`playlist`);
+    const data = await fetchData(`api/v1/playlists/playlists`);
     if (data) {
       setPlaylists(data);
     }
@@ -31,7 +31,7 @@ function AddToPlaylist({ id }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    let data = await updateData("playlist/create", {
+    let data = await updateData("api/v1/playlists/create", {
       name: formData.name,
       description: formData.description,
       videoId: id,
@@ -41,7 +41,10 @@ function AddToPlaylist({ id }) {
     navigate(`/playlist/${data._id}`);
   };
   let addVideoToPlaylist = async (name) => {
-    let data = await updateData("playlist", { videoId: id, name: name });
+    let data = await updateData("api/v1/playlists/playlist", {
+      videoId: id,
+      playlistName: name,
+    });
     console.log(data);
   };
 

@@ -12,31 +12,44 @@ function PlaylistPage() {
       setPlaylists(data);
     }
   };
+
+  // let createPlaylist = async () => {
+  //   // let data = await
+  // };
+
   useEffect(() => {
     fetchPlaylist();
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <h3 className="text-xl font-semibold mb-4">Playlists</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="max-w-6xl mx-auto px-4 py-6 ">
+      <h3 className="text-xl font-semibold mb-6">
+        Playlists
+        <button
+          className="text-lg absolute right-3 cursor-pointer rounded-lg bg-gray-800 px-2 py-2 mx-auto shadow-lg hover:text-gray-400"
+          onClick={() => alert("Test")}
+        >
+          New Playlist
+        </button>
+      </h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
         {playlists?.map((playlist) => (
           <NavLink
             to={`/playlist/${playlist._id}`}
             key={playlist._id}
-            className="group block border border-gray-200 rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+            className="group block border border-gray-200 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg"
           >
             {/* Show first video's thumbnail as cover */}
             <div
-              className="h-40 bg-cover bg-center"
+              className="h-40 bg-cover bg-center "
               style={{
                 backgroundImage: `url(${
-                  playlist?.videos?.[0]?.thumbnail.url || "/placeholder.jpg"
+                  playlist?.videos?.[0]?.thumbnail?.url || "/placeholder.jpg"
                 })`,
               }}
             />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold group-hover:text-red-600">
+            <div className="p-4 ">
+              <h3 className="text-lg font-semibold group-hover:text-gray-400">
                 {playlist.name}
               </h3>
               <p className="text-sm text-gray-500 mt-1 line-clamp-2">
