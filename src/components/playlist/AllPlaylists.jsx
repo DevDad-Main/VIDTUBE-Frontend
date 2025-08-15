@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchData } from "../utils";
 import { NavLink } from "react-router";
 import { FaPlus } from "react-icons/fa";
+import CreatePlaylistModal from "../comps/CreatePlaylistModal";
 
 function PlaylistPage() {
   document.title = "VideoTube - Playlists";
@@ -14,10 +15,6 @@ function PlaylistPage() {
     }
   };
 
-  // let createPlaylist = async () => {
-  //   // let data = await
-  // };
-
   useEffect(() => {
     fetchPlaylist();
   }, []);
@@ -28,10 +25,13 @@ function PlaylistPage() {
         Playlists
         <button
           className="text-lg absolute right-5 cursor-pointer rounded-lg bg-gray-800 px-2 py-2 mx-auto shadow-lg hover:text-gray-400"
-          onClick={() => alert("Test")}
+          onClick={() =>
+            document.getElementById("my_modal_create_playlist").showModal()
+          }
         >
           <FaPlus />
         </button>
+        <CreatePlaylistModal />
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
         {playlists?.map((playlist) => (
