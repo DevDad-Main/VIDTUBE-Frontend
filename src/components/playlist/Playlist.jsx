@@ -24,7 +24,12 @@ function Playlist() {
 
   return (
     <>
-      <VideoComp videos={videos} title={title} />
+      <VideoComp
+        videos={videos}
+        title={title}
+        playlistId={id}
+        isOnProfile={true}
+      />
     </>
   );
 }
