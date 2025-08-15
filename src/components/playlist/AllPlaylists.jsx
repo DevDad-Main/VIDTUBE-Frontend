@@ -7,7 +7,7 @@ function PlaylistPage() {
 
   const [playlists, setPlaylists] = useState([]);
   let fetchPlaylist = async () => {
-    let data = await fetchData(`playlist`);
+    let data = await fetchData(`api/v1/playlists/playlists`);
     if (data) {
       setPlaylists(data);
     }
@@ -31,7 +31,7 @@ function PlaylistPage() {
               className="h-40 bg-cover bg-center"
               style={{
                 backgroundImage: `url(${
-                  playlist?.videos?.[0]?.thumbnail || "/placeholder.jpg"
+                  playlist?.videos?.[0]?.thumbnail.url || "/placeholder.jpg"
                 })`,
               }}
             />
@@ -43,7 +43,7 @@ function PlaylistPage() {
                 {playlist.description}
               </p>
               <p className="text-xs text-gray-400 mt-2">
-                {playlist.videos.length} videos
+                {playlist.videos?.length} videos
               </p>
             </div>
           </NavLink>

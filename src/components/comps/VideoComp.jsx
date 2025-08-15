@@ -7,9 +7,9 @@ function VideoComp({ videos, title }) {
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {videos?.map((video) => (
           <NavLink key={video?._id} to={`/video/${video?._id}`}>
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-gray-800 rounded-lg shadow-2xl overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-lg">
               <img
-                src={video?.thumbnail}
+                src={video?.thumbnail?.url}
                 alt="thumbnail"
                 className="w-full h-36 object-cover"
               />
