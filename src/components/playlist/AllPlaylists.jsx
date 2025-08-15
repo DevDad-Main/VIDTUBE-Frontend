@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../utils";
 import { NavLink } from "react-router";
+import { FaPlus } from "react-icons/fa";
 
 function PlaylistPage() {
   document.title = "VideoTube - Playlists";
@@ -26,10 +27,10 @@ function PlaylistPage() {
       <h3 className="text-xl font-semibold mb-6">
         Playlists
         <button
-          className="text-lg absolute right-3 cursor-pointer rounded-lg bg-gray-800 px-2 py-2 mx-auto shadow-lg hover:text-gray-400"
+          className="text-lg absolute right-5 cursor-pointer rounded-lg bg-gray-800 px-2 py-2 mx-auto shadow-lg hover:text-gray-400"
           onClick={() => alert("Test")}
         >
-          New Playlist
+          <FaPlus />
         </button>
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
@@ -56,7 +57,8 @@ function PlaylistPage() {
                 {playlist.description}
               </p>
               <p className="text-xs text-gray-400 mt-2">
-                {playlist.videos?.length} videos
+                {playlist.videos?.length}{" "}
+                {playlist.videos?.length == 1 ? "video" : "videos"}
               </p>
             </div>
           </NavLink>

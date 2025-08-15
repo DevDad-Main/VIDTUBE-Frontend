@@ -62,7 +62,7 @@ function AddToPlaylist({ id }) {
               <h1 className="fieldset-legend">Add new Playlist</h1>
               <input
                 type="text"
-                className="input"
+                className="input mb-2"
                 placeholder="Playlist name"
                 name="name"
                 onChange={handleInput}

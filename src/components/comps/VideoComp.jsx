@@ -16,7 +16,7 @@ function VideoComp({ videos, title }) {
               <div className="p-3">
                 <h4 className="text-sm font-medium">{video?.title}</h4>
                 <p className="text-xs text-gray-500 mt-1">
-                  {video?.views} views
+                  {video?.views} {video?.views == 1 ? "view" : "views"}
                 </p>
               </div>
             </div>
