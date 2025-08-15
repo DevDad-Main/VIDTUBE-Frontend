@@ -1,4 +1,4 @@
-# 🎬 VideoTube — YouTube Clone (Frontend)
+# 🎬 VIDTUBE — YouTube Clone (Frontend)
 
 #### A modern YouTube-like video platform frontend built with React.js, designed to replicate core YouTube functionalities such as video playback, playlists, comments, likes, and user profile management. The interface is crafted with Tailwind CSS and daisyUI, providing a sleek and responsive user experience.
 
