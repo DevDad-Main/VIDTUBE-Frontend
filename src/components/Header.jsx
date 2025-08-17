@@ -67,48 +67,53 @@ function Header() {
       </NavLink>
       {/* 🔍 Search Bar */}
       <form onSubmit={handleSearch} className="flex-1 flex justify-center">
-        <div className="relative w-1/2">
-          <input
-            type="text"
-            placeholder="Search videos..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="input input-bordered w-full pr-12 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="absolute top-1/2 right-2 -translate-y-1/2 btn btn-circle btn-sm btn-neutral"
-          >
-            <FaSearch size={14} />
-          </button>
+        {!isOpen && (
+          <div className="relative w-1/2">
+            <input
+              type="text"
+              placeholder="Search videos..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="input input-bordered w-full pr-12 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="submit"
+              className="absolute top-1/2 right-1 -translate-y-1/2 btn btn-circle btn-sm btn-neutral"
+            >
+              <FaSearch size={14} />
+            </button>
 
-          {/* Dropdown Results */}
-          {results.length > 0 && (
-            <ul className="absolute bg-base-100 mt-2 w-full rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto border border-gray-200">
-              {results.map((video) => (
-                <li
-                  key={video._id}
-                  className="flex items-center gap-3 p-2 hover:bg-base-200 cursor-pointer transition"
-                  onClick={() => navigate(`/video/${video._id}`)}
-                >
-                  <img
-                    src={video.thumbnail?.url}
-                    alt={video.title}
-                    className="w-16 h-10 object-cover rounded-md shadow-sm"
-                  />
-                  <div className="flex flex-col overflow-hidden">
-                    <span className="font-medium text-sm truncate">
-                      {video.title}
-                    </span>
-                    <span className="text-xs text-gray-500 truncate">
-                      {video.owner?.username}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+            {/* Dropdown Results */}
+            {results.length > 0 && (
+              <ul className="absolute bg-base-100 mt-2 w-full rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto border border-gray-200">
+                {results.map((video) => (
+                  <li
+                    key={video._id}
+                    className="flex items-center gap-5 p-2 hover:bg-base-200 cursor-pointer transition"
+                    onClick={() => {
+                      navigate(`/video/${video._id}`);
+                      window.location.reload();
+                    }}
+                  >
+                    <img
+                      src={video.thumbnail?.url}
+                      alt={video.title}
+                      className="w-25 h-20 object-cover rounded-md shadow-sm"
+                    />
+                    <div className="flex flex-col overflow-hidden">
+                      <span className="font-bold text-sm truncate">
+                        {video.title}
+                      </span>
+                      <span className="text-xs text-gray-500 truncate">
+                        {video.owner?.username}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
       </form>
       {token && (
         <div className="dropdown dropdown-end absolute right-3">
