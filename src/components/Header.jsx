@@ -1,26 +1,30 @@
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { fetchData } from "./utils";
-import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
+
 function Header() {
   const navigate = useNavigate();
   let token = sessionStorage.getItem("token");
   const [user, setUser] = useState({});
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const handleMenuClick = () => {
+    setIsOpen(false); // close dropdown after click
+  };
   useEffect(() => {
     async function getUser() {
       if (token) {
-        console.log("Verified Token");
         const data = await fetchData("api/v1/users/current-user");
         if (data) {
           setUser(data);
         } else {
-          // token exists but backend says it's invalid/expired
           sessionStorage.removeItem("token");
           navigate("/login");
         }
       } else {
-        // no token at all
         navigate("/login");
       }
     }
@@ -33,132 +37,147 @@ function Header() {
       if (data) {
         sessionStorage.clear();
         navigate("/login");
-      } else {
-        alert("You need to be logged in to access this page!");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  // 🔍 Search handler
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    try {
+      const data = await fetchData(`api/v1/videos/search?query=${query}`);
+      if (data) {
+        setResults(data);
+      }
+    } catch (err) {
+      console.error("Search failed", err);
+    }
+  };
+
   return (
-    <div className="navbar bg-base-100 shadow-lg z-100">
+    <div className="navbar bg-base-100 shadow-md z-100">
+      {/* Logo */}
       <NavLink to={"/"}>
-        <span className="btn btn-ghost text-xl transition-transform duration-300 hover:scale-105 hover:shadow-sm">
+        <span className="btn btn-ghost text-xl font-bold transition-transform duration-300 hover:scale-105 hover:shadow-sm">
           VIDTUBE
         </span>
       </NavLink>
-      <div className="flex gap-5 text-2xl">
-        <div>
-          <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm">
-            <div tabIndex={0} role="button" className="btn btn-ghost m-1">
-              Videos
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-            >
-              <li>
-                <NavLink to={"/upload-video"}>Upload video</NavLink>
-              </li>
+      {/* 🔍 Search Bar */}
+      <form onSubmit={handleSearch} className="flex-1 flex justify-center">
+        <div className="relative w-1/2">
+          <input
+            type="text"
+            placeholder="Search videos..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="input input-bordered w-full pr-12 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="submit"
+            className="absolute top-1/2 right-2 -translate-y-1/2 btn btn-circle btn-sm btn-neutral"
+          >
+            <FaSearch size={14} />
+          </button>
 
-              <li>
-                <NavLink to={"/watch-history"}>Watch History</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/playlists"}>Explore Playlist</NavLink>
-              </li>
+          {/* Dropdown Results */}
+          {results.length > 0 && (
+            <ul className="absolute bg-base-100 mt-2 w-full rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto border border-gray-200">
+              {results.map((video) => (
+                <li
+                  key={video._id}
+                  className="flex items-center gap-3 p-2 hover:bg-base-200 cursor-pointer transition"
+                  onClick={() => navigate(`/video/${video._id}`)}
+                >
+                  <img
+                    src={video.thumbnail?.url}
+                    alt={video.title}
+                    className="w-16 h-10 object-cover rounded-md shadow-sm"
+                  />
+                  <div className="flex flex-col overflow-hidden">
+                    <span className="font-medium text-sm truncate">
+                      {video.title}
+                    </span>
+                    <span className="text-xs text-gray-500 truncate">
+                      {video.owner?.username}
+                    </span>
+                  </div>
+                </li>
+              ))}
             </ul>
-          </div>
+          )}
         </div>
-        {/* <div> */}
-        {/*   <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm"> */}
-        {/*     <div tabIndex={0} role="button" className="btn btn-ghost m-1"> */}
-        {/*       Tweet */}
-        {/*     </div> */}
-        {/*     <ul */}
-        {/*       tabIndex={0} */}
-        {/*       className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" */}
-        {/*     > */}
-        {/*       <li> */}
-        {/*         <NavLink to={"/tweet"}>Read tweets</NavLink> */}
-        {/*       </li> */}
-        {/*       <li> */}
-        {/*         <NavLink to={"/add-tweet"}>Add tweet</NavLink> */}
-        {/*       </li> */}
-        {/*     </ul> */}
-        {/*   </div> */}
-        {/* </div> */}
-        {/* <div> */}
-        {/*   <div className="dropdown transition-transform duration-300 hover:scale-105 hover:shadow-sm"> */}
-        {/*     <div tabIndex={0} role="button" className="btn btn-ghost m-1"> */}
-        {/*       User */}
-        {/*     </div> */}
-        {/*     <ul */}
-        {/*       tabIndex={0} */}
-        {/*       className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm" */}
-        {/*     > */}
-        {/*       <li> */}
-        {/*         <NavLink to={"/change-password"}>Change Password</NavLink> */}
-        {/*       </li> */}
-        {/*       {/* <li> */}
-        {/*         <NavLink to={"/update-account"}>Update Account</NavLink> */}
-        {/*       </li> */}
-        {/*       <li> */}
-        {/*         <NavLink to={"/update-avatar"}>Update Avatar</NavLink> */}
-        {/*       </li> */}
-        {/*     </ul> */}
-        {/*   </div> */}
-        {/* </div> */}
-        {token ? (
-          <div className="dropdown absolute right-3 transition-transform duration-300 hover:scale-105 hover:shadow-sm">
-            <div tabIndex={0} role="button">
-              <div className="avatar cursor-pointer">
-                <div className="border-2 border-white w-12 rounded-full">
-                  <img src={user?.avatar?.url} />
-                </div>
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm right-0"
-            >
-              <li>
-                <NavLink to={"/user"}>View Profile</NavLink>
-              </li>
-              <li>
-                <NavLink to={"/change-password"}>Change Password</NavLink>
-              </li>
-              <li>
-                <button onClick={letLogout}>Logout</button>
-                {/* <NavLink to={"/logout"}>Logout</NavLink> */}
-              </li>
-              {/* <li> */}
-              {/*   <NavLink to={`/user`}> */}
-              {/*     <div className="avatar cursor-pointer"> */}
-              {/*       <div className="w-12 rounded-full"> */}
-              {/*         <img src={user?.avatar?.url} /> */}
-              {/*       </div> */}
-              {/*     </div> */}
-              {/*   </NavLink> */}
-              {/* </li> */}
-              {/* <button className="btn btn-neutral text-lg" onClick={letLogout}>Logout</button> */}
-            </ul>
-          </div>
-        ) : (
-          <div className="absolute right-3 flex gap-3">
-            <div>
-              <NavLink to={"/login"}>
-                <button className="btn btn-neutral text-lg">Login</button>
-              </NavLink>
-            </div>
-            <div>
-              <NavLink to={"/register"}>
-                <button className="btn btn-neutral text-lg">Register</button>
-              </NavLink>
+      </form>
+      {token && (
+        <div className="dropdown dropdown-end absolute right-3">
+          {/* Avatar Button */}
+          <div tabIndex={0} role="button" className="avatar cursor-pointer">
+            <div className="border-2 border-white w-12 rounded-full hover:scale-105 transition">
+              <img src={user?.avatar?.url} alt="User avatar" />
             </div>
           </div>
-        )}
-      </div>
+
+          {/* Dropdown Menu */}
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu bg-base-100 rounded-box w-56 p-2 shadow-lg z-50"
+          >
+            <li>
+              <NavLink
+                to={"/user"}
+                onClick={(e) => e.target.closest(".dropdown").blur()}
+              >
+                👤 View Profile
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/upload-video"}
+                onClick={(e) => e.target.closest(".dropdown").blur()}
+              >
+                🎬 Create Video
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/watch-history"}
+                onClick={(e) => e.target.closest(".dropdown").blur()}
+              >
+                ⏳ Watch History
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/playlists"}
+                onClick={(e) => e.target.closest(".dropdown").blur()}
+              >
+                📂 Playlists
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/change-password"}
+                onClick={(e) => e.target.closest(".dropdown").blur()}
+              >
+                🔑 Change Password
+              </NavLink>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  letLogout();
+                  document.activeElement.blur(); // force close after logout
+                }}
+              >
+                🚪 Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}{" "}
+      )}{" "}
     </div>
   );
 }

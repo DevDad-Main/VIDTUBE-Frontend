@@ -21,7 +21,7 @@ function UserProfile() {
   };
 
   const letSubscribe = async (id) => {
-    let data = await updateData("subscription", { channelId: id });
+    let data = await updateData("api/v1/subscriptions/c", { channelId: id });
     if (data) {
       setUser((prev) => ({
         ...prev,
@@ -32,7 +32,11 @@ function UserProfile() {
   };
 
   const letUnSubscribe = async (id) => {
-    let data = await updateData("subscription", { channelId: id }, "DELETE");
+    let data = await updateData(
+      "api/v1/subscriptions/c",
+      { channelId: id },
+      "DELETE",
+    );
     if (data) {
       setUser((prev) => ({
         ...prev,
