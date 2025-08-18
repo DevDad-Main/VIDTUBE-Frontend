@@ -29,6 +29,7 @@ function Playlist() {
         title={title}
         playlistId={id}
         isOnProfile={true}
+        onUpdate={fetchPlaylist} //Callback to refresh our playlist videos once removed
       />
     </>
   );

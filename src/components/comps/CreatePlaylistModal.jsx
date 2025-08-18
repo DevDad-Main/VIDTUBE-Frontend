@@ -2,7 +2,7 @@ import { useState } from "react";
 import { updateData } from "../utils";
 import { useNavigate } from "react-router";
 
-function CreatePlaylistModal() {
+function CreatePlaylistModal({ onUpdate }) {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -18,14 +18,16 @@ function CreatePlaylistModal() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const model = document.getElementById("my_modal_create_playlist")?.close();
-    model?.close();
+
     let data = await updateData("api/v1/playlists/create", {
       name: formData.name,
       description: formData.description,
     });
-    window.location.reload(); // ✅ refresh page
-    // navigate(`/playlist/${data._id}`);
+
+    if (data) {
+      onUpdate();
+      setFormData({ name: "", description: "" }); // reset form
+    }
   };
 
   return (
@@ -55,7 +57,14 @@ function CreatePlaylistModal() {
               onChange={handleInput}
               value={formData.description}
             />
-            <button className="mt-4 btn">Create</button>
+            <button
+              className="mt-4 btn"
+              onClick={() =>
+                document.getElementById("my_modal_create_playlist").close()
+              }
+            >
+              Create
+            </button>
           </form>
         </div>
       </div>

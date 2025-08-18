@@ -34,13 +34,13 @@ function PlaylistPage() {
       let data = await updateData(
         `api/v1/playlists/update/${playlistId}`,
         {},
-        "DELETE",
+        "PATCH",
       ); // Your backend delete route
       if (data) {
         setPlaylists((prev) => prev.filter((p) => p._id !== playlistId)); // Remove from UI
       }
     } catch (error) {
-      console.error("Failed to delete playlist", error);
+      console.error("Failed to upadte playlist", error);
     }
   };
 
@@ -60,7 +60,7 @@ function PlaylistPage() {
         >
           <FaPlus />
         </button>
-        <CreatePlaylistModal />
+        <CreatePlaylistModal onUpdate={fetchPlaylist} />
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {playlists?.map((playlist) => (

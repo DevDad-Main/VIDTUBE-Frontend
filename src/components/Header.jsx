@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router";
 import { fetchData } from "./utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 
 function Header() {
@@ -9,11 +9,21 @@ function Header() {
   const [user, setUser] = useState({});
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+
+  const searchRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleMenuClick = () => {
-    setIsOpen(false); // close dropdown after click
-  };
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   useEffect(() => {
     async function getUser() {
       if (token) {
@@ -46,11 +56,16 @@ function Header() {
   // 🔍 Search handler
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!query.trim()) return;
+    if (!query.trim()) {
+      setResults([]);
+      setIsOpen(false);
+      return;
+    }
     try {
       const data = await fetchData(`api/v1/videos/search?query=${query}`);
       if (data) {
         setResults(data);
+        setIsOpen(true);
       }
     } catch (err) {
       console.error("Search failed", err);
@@ -67,13 +82,19 @@ function Header() {
       </NavLink>
       {/* 🔍 Search Bar */}
       <form onSubmit={handleSearch} className="flex-1 flex justify-center">
-        {!isOpen && (
-          <div className="relative w-1/2">
+        {token && (
+          <div className="relative w-1/2" ref={searchRef}>
             <input
               type="text"
               placeholder="Search videos..."
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                if (!e.target.value.trim()) {
+                  setResults([]);
+                  setIsOpen(false);
+                }
+              }}
               className="input input-bordered w-full pr-12 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
@@ -84,7 +105,7 @@ function Header() {
             </button>
 
             {/* Dropdown Results */}
-            {results.length > 0 && (
+            {isOpen && results.length > 0 && (
               <ul className="absolute bg-base-100 mt-2 w-full rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto border border-gray-200">
                 {results.map((video) => (
                   <li
@@ -92,7 +113,8 @@ function Header() {
                     className="flex items-center gap-5 p-2 hover:bg-base-200 cursor-pointer transition"
                     onClick={() => {
                       navigate(`/video/${video._id}`);
-                      window.location.reload();
+                      // window.location.reload();
+                      setIsOpen(false);
                     }}
                   >
                     <img
@@ -181,7 +203,6 @@ function Header() {
             </li>
           </ul>
         </div>
-      )}{" "}
       )}{" "}
     </div>
   );

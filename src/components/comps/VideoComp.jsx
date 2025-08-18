@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 import { FaTrash } from "react-icons/fa";
 import { updateData } from "../utils";
 
-function VideoComp({ videos, title, playlistId, isOnProfile }) {
+function VideoComp({ videos, title, playlistId, isOnProfile, onUpdate }) {
   let handleDeleteVideoFromPlaylist = async (videoId) => {
     try {
       let data = await updateData(
@@ -13,8 +13,7 @@ function VideoComp({ videos, title, playlistId, isOnProfile }) {
         "DELETE",
       ); // Your backend delete route
       if (data) {
-        console.log(data);
-        // setPlaylists((prev) => prev.filter((p) => p._id !== playlistId)); // Remove from UI
+        onUpdate();
       }
     } catch (error) {
       console.error("Failed to delete playlist", error);
