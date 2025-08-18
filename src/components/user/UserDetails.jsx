@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 
 function UserDetails() {
   const navigate = useNavigate();
+
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -15,9 +16,9 @@ function UserDetails() {
   const [avatar, setAvatar] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
   const [loading, setLoading] = useState(false);
-
   // getting user
   const [user, setUser] = useState({});
+
   async function getUser() {
     const data = await fetchData("api/v1/users/current-user");
     if (data) {
@@ -144,7 +145,7 @@ function UserDetails() {
             )}
           </div>
         </div>
-        <div className="absolute left-50 -bottom-10">
+        <div className="absolute left-50 -bottom-15">
           <div className="flex-1 text-center md:text-left">
             <h2 className="text-2xl font-bold">{user.username}</h2>
             <div className="text-sm text-gray-600 flex gap-4 justify-center md:justify-start mt-1">
@@ -159,51 +160,51 @@ function UserDetails() {
         {/* </div> */}
       </div>
 
-      <div className="relative">
-        <div className="absolute top-1 right-50">
-          {editing ? (
-            <>
-              <button
-                className="btn btn-soft btn-neutral m-2"
-                onClick={() => {
-                  setLoading(true);
-                  updateUserInfo();
-                }}
-              >
-                {loading ? (
-                  <span className="loading loading-spinner loading-xs"></span>
-                ) : (
-                  <SaveIcon size={20} />
-                )}
-                Save
-              </button>
-              <button
-                className="btn btn-soft btn-secondary"
-                onClick={() => setEditing(false)}
-              >
-                {" "}
-                <X size={20} /> Cancel{" "}
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                className="btn btn-soft btn-primary m-2"
-                onClick={() => {
-                  setEditing(true);
-                  console.log(document.getElementById("fullname"));
-                }}
-              >
-                {" "}
-                <PencilLine size={20} /> Edit{" "}
-              </button>
-              <button className="btn btn-soft btn-error" onClick={letLogout}>
-                Logout
-              </button>
-            </>
-          )}
-        </div>
-      </div>
+      {/* <div className="relative"> */}
+      {/*   <div className="absolute top-1 right-50"> */}
+      {/*     {editing ? ( */}
+      {/*       <> */}
+      {/*         <button */}
+      {/*           className="btn btn-soft btn-neutral m-2" */}
+      {/*           onClick={() => { */}
+      {/*             setLoading(true); */}
+      {/*             updateUserInfo(); */}
+      {/*           }} */}
+      {/*         > */}
+      {/*           {loading ? ( */}
+      {/*             <span className="loading loading-spinner loading-xs"></span> */}
+      {/*           ) : ( */}
+      {/*             <SaveIcon size={20} /> */}
+      {/*           )} */}
+      {/*           Save */}
+      {/*         </button> */}
+      {/*         <button */}
+      {/*           className="btn btn-soft btn-secondary" */}
+      {/*           onClick={() => setEditing(false)} */}
+      {/*         > */}
+      {/*           {" "} */}
+      {/*           <X size={20} /> Cancel{" "} */}
+      {/*         </button> */}
+      {/*       </> */}
+      {/*     ) : ( */}
+      {/*       <> */}
+      {/*         <button */}
+      {/*           className="btn btn-soft btn-primary m-2" */}
+      {/*           onClick={() => { */}
+      {/*             setEditing(true); */}
+      {/*             console.log(document.getElementById("fullname")); */}
+      {/*           }} */}
+      {/*         > */}
+      {/*           {" "} */}
+      {/*           <PencilLine size={20} /> Edit{" "} */}
+      {/*         </button> */}
+      {/*         <button className="btn btn-soft btn-error" onClick={letLogout}> */}
+      {/*           Logout */}
+      {/*         </button> */}
+      {/*       </> */}
+      {/*     )} */}
+      {/*   </div> */}
+      {/* </div> */}
 
       {/* <div className="flex-center w-[900px] mt-10"> */}
       {/*   <form className="flex flex-col gap-8"> */}
@@ -258,7 +259,7 @@ function UserDetails() {
       {/* </form> */}
       {/* </div> */}
 
-      <div className="mt-10">
+      <div className="mt-20">
         <UserWatchHistory />
       </div>
       <div className="mt-10">
