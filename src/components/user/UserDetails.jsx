@@ -113,8 +113,9 @@ function UserDetails() {
       <div className="relative">
         <img
           src={user.coverImage?.url}
-          alt=""
-          className="w-full h-52 relative object-cover"
+          alt="cover image"
+          className="w-full max-h-[400px] object-cover"
+          style={{ objectPosition: "center top" }}
         />
 
         {editing && (
@@ -126,15 +127,16 @@ function UserDetails() {
           </div>
         )}
 
-        <div className="absolute left-25 top-40">
-          <div className="avatar">
-            <div className="w-35 rounded-full border-4 border-white">
-              <img src={user?.avatar?.url} />
+        {/* Avatar wrapper */}
+        <div className="absolute left-8 -bottom-16">
+          <div className="avatar relative">
+            <div className="w-36 h-36 rounded-full border-4 border-white overflow-hidden shadow-lg">
+              <img src={user?.avatar?.url} alt="avatar" />
             </div>
 
             {editing && (
               <div
-                className="absolute right-1 bottom-4 bg-blue-500 text-white rounded-4xl h-8 flex-center cursor-pointer"
+                className="absolute right-1 bottom-4 bg-blue-500 text-white rounded-4xl h-8 w-8 flex-center cursor-pointer"
                 onClick={handleFileUpload}
               >
                 <Camera size={20} />
@@ -142,6 +144,19 @@ function UserDetails() {
             )}
           </div>
         </div>
+        <div className="absolute left-50 -bottom-10">
+          <div className="flex-1 text-center md:text-left">
+            <h2 className="text-2xl font-bold">{user.username}</h2>
+            <div className="text-sm text-gray-600 flex gap-4 justify-center md:justify-start mt-1">
+              <span>{user.subscribersCount} Subscribers</span>
+              <span>{user.channelsSubscribedToCount} Subscribed</span>
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="absolute left-50 -bottom-10"> */}
+        {/*   <h1 className="text-3xl">{user?.username}</h1> */}
+        {/* </div> */}
       </div>
 
       <div className="relative">
@@ -190,58 +205,58 @@ function UserDetails() {
         </div>
       </div>
 
-      <div className="flex-center w-[900px] mt-10">
-        <form className="flex flex-col gap-8">
-          <div>
-            <label htmlFor="" className="font-sans text-lg">
-              Fullname
-            </label>
-            <br />
-            {editing ? (
-              <input
-                type="text"
-                name="fullname"
-                value={formData.fullname}
-                onChange={handleInput}
-                className="font-semibold input w-[300px]"
-              />
-            ) : (
-              <input
-                type="text"
-                name=""
-                id=""
-                value={user.fullname}
-                className="font-semibold input w-[300px]"
-                readOnly
-              />
-            )}
-          </div>
-          <div>
-            <label htmlFor="" className="font-sans text-lg">
-              Email
-            </label>
-            <br />
-            {editing ? (
-              <input
-                type="text"
-                name="email"
-                value={formData.email}
-                onChange={handleInput}
-                className="font-semibold input w-[300px]"
-              />
-            ) : (
-              <input
-                type="text"
-                name=""
-                id=""
-                value={user.email}
-                className="font-semibold input w-[300px]"
-                readOnly
-              />
-            )}
-          </div>
-        </form>
-      </div>
+      {/* <div className="flex-center w-[900px] mt-10"> */}
+      {/*   <form className="flex flex-col gap-8"> */}
+      {/*     <div> */}
+      {/*       <label htmlFor="" className="font-sans text-lg"> */}
+      {/*         Fullname */}
+      {/*       </label> */}
+      {/*       <br /> */}
+      {/*       {editing ? ( */}
+      {/*         <input */}
+      {/*           type="text" */}
+      {/*           name="fullname" */}
+      {/*           value={formData.fullname} */}
+      {/*           onChange={handleInput} */}
+      {/*           className="font-semibold input w-[300px]" */}
+      {/*         /> */}
+      {/*       ) : ( */}
+      {/*         <input */}
+      {/*           type="text" */}
+      {/*           name="" */}
+      {/*           id="" */}
+      {/*           value={user.fullname} */}
+      {/*           className="font-semibold input w-[300px]" */}
+      {/*           readOnly */}
+      {/*         /> */}
+      {/*       )} */}
+      {/*     </div> */}
+      {/* <div> */}
+      {/*   <label htmlFor="" className="font-sans text-lg"> */}
+      {/*     Email */}
+      {/*   </label> */}
+      {/*   <br /> */}
+      {/*   {editing ? ( */}
+      {/*     <input */}
+      {/*       type="text" */}
+      {/*       name="email" */}
+      {/*       value={formData.email} */}
+      {/*       onChange={handleInput} */}
+      {/*       className="font-semibold input w-[300px]" */}
+      {/*     /> */}
+      {/*   ) : ( */}
+      {/*     <input */}
+      {/*       type="text" */}
+      {/*       name="" */}
+      {/*       id="" */}
+      {/*       value={user.email} */}
+      {/*       className="font-semibold input w-[300px]" */}
+      {/*       readOnly */}
+      {/*     /> */}
+      {/*   )} */}
+      {/* </div> */}
+      {/* </form> */}
+      {/* </div> */}
 
       <div className="mt-10">
         <UserWatchHistory />
