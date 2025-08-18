@@ -229,6 +229,14 @@ function Header() {
                 to={"/change-password"}
                 onClick={(e) => e.target.closest(".dropdown").blur()}
               >
+                🗄️ Update Details
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={"/change-password"}
+                onClick={(e) => e.target.closest(".dropdown").blur()}
+              >
                 🔑 Change Password
               </NavLink>
             </li>

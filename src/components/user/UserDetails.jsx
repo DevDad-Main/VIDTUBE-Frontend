@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router";
-import { Camera, X, PencilLine, SaveIcon } from "lucide-react";
+import { Camera } from "lucide-react";
 import { PlaylistPage, UserWatchHistory } from "../index";
 import { fetchData, updateWithFormData, updateData } from "../utils";
 import { useNavigate } from "react-router";
@@ -149,8 +148,16 @@ function UserDetails() {
           <div className="flex-1 text-center md:text-left">
             <h2 className="text-2xl font-bold">{user.username}</h2>
             <div className="text-sm text-gray-600 flex gap-4 justify-center md:justify-start mt-1">
-              <span>{user.subscribersCount} Subscribers</span>
-              <span>{user.channelsSubscribedToCount} Subscribed</span>
+              <span>
+                {user.subscribersCount}{" "}
+                {user.subscribersCount === 1 ? "Subscriber" : "Subscribers"}
+              </span>
+              <span>
+                {user.channelsSubscribedToCount}{" "}
+                {user.channelsSubscribedToCount === 1
+                  ? "Subscription"
+                  : "Subscriptions"}
+              </span>
             </div>
           </div>
         </div>
