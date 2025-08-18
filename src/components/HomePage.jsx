@@ -10,7 +10,6 @@ function HomePage() {
   const fetchVideos = async () => {
     const data = await fetchData("api/v1/videos/feed?page=1&limit=10");
     if (data) {
-      console.log(data);
       setVideos(data);
     }
   };

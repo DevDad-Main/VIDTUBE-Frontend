@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router";
 import { fetchData } from "./utils";
 import { useEffect, useState, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function Header() {
   const navigate = useNavigate();
@@ -13,15 +14,14 @@ function Header() {
   const searchRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside); // 🔄 was "mousedown"
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -57,18 +57,31 @@ function Header() {
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query.trim()) {
+      toast.error(`Please enter a search query`, {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
       setResults([]);
       setIsOpen(false);
       return;
     }
     try {
       const data = await fetchData(`api/v1/videos/search?query=${query}`);
-      if (data) {
+      if (data && data.length > 0) {
         setResults(data);
         setIsOpen(true);
+      } else {
+        setResults(null);
+        setIsOpen(false);
+        toast.error(`No videos match your search`, {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "dark",
+        });
       }
     } catch (err) {
-      console.error("Search failed", err);
+      // console.error("Search failed", err);
     }
   };
 
@@ -81,7 +94,10 @@ function Header() {
         </span>
       </NavLink>
       {/* 🔍 Search Bar */}
-      <form onSubmit={handleSearch} className="flex-1 flex justify-center">
+      <form
+        onSubmit={handleSearch}
+        className="flex-1 flex justify-center align-center"
+      >
         {token && (
           <div className="relative w-1/2" ref={searchRef}>
             <input
@@ -99,9 +115,9 @@ function Header() {
             />
             <button
               type="submit"
-              className="absolute top-1/2 right-1 -translate-y-1/2 btn btn-circle btn-sm btn-neutral"
+              className="absolute top-1/2 right-1 -translate-y-1/2 btn btn-ghost rounded-full btn-sm btn-neutral"
             >
-              <FaSearch size={14} />
+              Search
             </button>
 
             {/* Dropdown Results */}

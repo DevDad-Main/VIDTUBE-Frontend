@@ -12,7 +12,6 @@ async function updateWithFormData(
       body: formData,
       ...credential,
     });
-    // console.log(import.meta.env.VITE_API_URL);
     const data = await response.json();
     if (data.success) {
       toast.success(`${data.message}`, {
@@ -29,7 +28,6 @@ async function updateWithFormData(
       });
     }
   } catch (error) {
-    console.log(error);
     alert(error);
     return null;
   }
@@ -43,12 +41,10 @@ async function fetchData(path, header = {}) {
       credentials: "include",
       headers: header,
     });
-    console.log(res);
     const data = await res.json();
     if (data.success) {
       return data.data;
     } else {
-      console.log(data);
       toast.error(`${data.message}`, {
         position: "top-center",
         autoClose: 3000,
@@ -57,7 +53,6 @@ async function fetchData(path, header = {}) {
       return null;
     }
   } catch (error) {
-    console.log(error);
     toast.warn(`Please try again in a moment..`, {
       position: "top-center",
       autoClose: 3000,
@@ -85,7 +80,6 @@ async function updateData(path, content, methodType = "POST") {
       });
       return data.data;
     } else {
-      console.log(data);
       toast.error(`${data.message}`, {
         position: "top-center",
         autoClose: 3000,
@@ -94,7 +88,6 @@ async function updateData(path, content, methodType = "POST") {
       return null;
     }
   } catch (error) {
-    console.log(error);
     toast.warn(`Please try again in a moment..`, {
       position: "top-center",
       autoClose: 3000,
