@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Camera } from "lucide-react";
+import { Camera, X, SaveIcon, PencilLine } from "lucide-react";
 import { PlaylistPage, UserWatchHistory } from "../index";
 import { fetchData, updateWithFormData, updateData } from "../utils";
 import { useNavigate } from "react-router";
@@ -110,6 +110,7 @@ function UserDetails() {
   };
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Cover Image wrapper */}
       <div className="relative">
         <img
           src={user.coverImage?.url}
@@ -117,7 +118,6 @@ function UserDetails() {
           className="w-full max-h-[400px] object-cover"
           style={{ objectPosition: "center top" }}
         />
-
         {editing && (
           <div
             className="absolute right-2 bottom-2 bg-blue-500 text-white rounded-4xl h-8 w-8 flex-center cursor-pointer"
@@ -167,51 +167,48 @@ function UserDetails() {
         {/* </div> */}
       </div>
 
-      {/* <div className="relative"> */}
-      {/*   <div className="absolute top-1 right-50"> */}
-      {/*     {editing ? ( */}
-      {/*       <> */}
-      {/*         <button */}
-      {/*           className="btn btn-soft btn-neutral m-2" */}
-      {/*           onClick={() => { */}
-      {/*             setLoading(true); */}
-      {/*             updateUserInfo(); */}
-      {/*           }} */}
-      {/*         > */}
-      {/*           {loading ? ( */}
-      {/*             <span className="loading loading-spinner loading-xs"></span> */}
-      {/*           ) : ( */}
-      {/*             <SaveIcon size={20} /> */}
-      {/*           )} */}
-      {/*           Save */}
-      {/*         </button> */}
-      {/*         <button */}
-      {/*           className="btn btn-soft btn-secondary" */}
-      {/*           onClick={() => setEditing(false)} */}
-      {/*         > */}
-      {/*           {" "} */}
-      {/*           <X size={20} /> Cancel{" "} */}
-      {/*         </button> */}
-      {/*       </> */}
-      {/*     ) : ( */}
-      {/*       <> */}
-      {/*         <button */}
-      {/*           className="btn btn-soft btn-primary m-2" */}
-      {/*           onClick={() => { */}
-      {/*             setEditing(true); */}
-      {/*             console.log(document.getElementById("fullname")); */}
-      {/*           }} */}
-      {/*         > */}
-      {/*           {" "} */}
-      {/*           <PencilLine size={20} /> Edit{" "} */}
-      {/*         </button> */}
-      {/*         <button className="btn btn-soft btn-error" onClick={letLogout}> */}
-      {/*           Logout */}
-      {/*         </button> */}
-      {/*       </> */}
-      {/*     )} */}
-      {/*   </div> */}
-      {/* </div> */}
+      <div className="relative">
+        <div className="absolute top-1 right-2">
+          {editing ? (
+            <>
+              <button
+                className="btn btn-soft btn-neutral m-2"
+                onClick={() => {
+                  setLoading(true);
+                  updateUserInfo();
+                }}
+              >
+                {loading ? (
+                  <span className="loading loading-spinner loading-xs"></span>
+                ) : (
+                  <SaveIcon size={20} />
+                )}
+                Save
+              </button>
+              <button
+                className="btn btn-soft btn-secondary"
+                onClick={() => setEditing(false)}
+              >
+                {" "}
+                <X size={20} /> Cancel{" "}
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="btn btn-soft btn-primary m-2"
+                onClick={() => {
+                  setEditing(true);
+                  console.log(document.getElementById("fullname"));
+                }}
+              >
+                {" "}
+                <PencilLine size={20} /> Edit{" "}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
 
       {/* <div className="flex-center w-[900px] mt-10"> */}
       {/*   <form className="flex flex-col gap-8"> */}

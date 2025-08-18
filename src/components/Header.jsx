@@ -226,7 +226,7 @@ function Header() {
             </li>
             <li>
               <NavLink
-                to={"/change-password"}
+                to={"/update-account"}
                 onClick={(e) => e.target.closest(".dropdown").blur()}
               >
                 🗄️ Update Details
