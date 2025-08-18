@@ -153,6 +153,31 @@ function Header() {
           </div>
         )}
       </form>
+      {token ? (
+        <div className="absolute right-3">
+          <NavLink to={`/user`}>
+            <div className="avatar cursor-pointer">
+              <div className="w-12 rounded-full">
+                <img src={user?.avatar} />
+              </div>
+            </div>
+          </NavLink>
+          {/* <button className="btn btn-neutral text-lg" onClick={letLogout}>Logout</button> */}
+        </div>
+      ) : (
+        <div className="absolute right-3 flex gap-3">
+          <div>
+            <NavLink to={"/login"}>
+              <button className="btn btn-neutral text-lg">Login</button>
+            </NavLink>
+          </div>
+          <div>
+            <NavLink to={"/register"}>
+              <button className="btn btn-neutral text-lg">Register</button>
+            </NavLink>
+          </div>
+        </div>
+      )}
       {token && (
         <div className="dropdown dropdown-end absolute right-3">
           {/* Avatar Button */}
