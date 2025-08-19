@@ -67,7 +67,7 @@ async function updateData(path, content, methodType = "POST") {
       method: methodType,
       body: JSON.stringify(content),
       headers: {
-        "content-type": "application/json",
+        "Content-type": "application/json",
       },
       credentials: "include",
     });
