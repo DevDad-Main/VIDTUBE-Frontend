@@ -66,9 +66,9 @@ async function updateData(path, content, methodType = "POST") {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/${path}`, {
       method: methodType,
       body: JSON.stringify(content),
-      // headers: {
-      //   "content-type": "application/json",
-      // },
+      headers: {
+        "content-type": "application/json",
+      },
       credentials: "include",
     });
     const data = await response.json();
