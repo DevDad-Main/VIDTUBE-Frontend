@@ -45,14 +45,10 @@ function Register() {
       }
     } catch (err) {
       console.log(err);
-      if (err.response?.status === 400) {
-        const backendErrors = err.response.data.errors;
-        backendErrors.forEach((e) => {
-          toast.error(`${e.field}: ${e.message}`);
-        });
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      const backendErrors = err.response.data.errors;
+      backendErrors.forEach((e) => {
+        toast.error(`${e.field}: ${e.message}`);
+      });
     }
   };
   return (
