@@ -21,11 +21,23 @@ async function updateWithFormData(
       });
       return data.data;
     } else {
-      toast.error(`${data.message}`, {
-        position: "top-center",
-        autoClose: 3000,
-        theme: "dark",
-      });
+      if (data.errors && Array.isArray(data.errors)) {
+        // loop through all validation errors
+        data.errors.forEach((err) => {
+          toast.error(err.msg, {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        });
+      } else {
+        toast.error(`${data.message || "Something went wrong"}`, {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "dark",
+        });
+      }
+      return null; // so frontend knows request failed
     }
   } catch (error) {
     alert(error);

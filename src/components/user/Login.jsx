@@ -27,7 +27,6 @@ function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const data = await updateData("api/v1/users/login", { ...formData });
-    console.log(data);
     if (data) {
       sessionStorage.setItem("token", data?.accessToken);
       navigate("/");

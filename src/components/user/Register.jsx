@@ -30,8 +30,8 @@ function Register() {
     formDataToSend.append("email", formData.email);
     formDataToSend.append("fullname", formData.fullname);
     formDataToSend.append("password", formData.password);
-    formDataToSend.append("avatar", formData.avatar); // should be File
-    formDataToSend.append("coverImage", formData.coverImage); // should be File
+    formDataToSend.append("avatar", formData.avatar || ""); // should be File
+    formDataToSend.append("coverImage", formData.coverImage || ""); // should be File
 
     try {
       const data = await updateWithFormData(
@@ -45,10 +45,17 @@ function Register() {
       }
     } catch (err) {
       console.log(err);
-      const backendErrors = err.response.data.errors;
-      backendErrors.forEach((e) => {
-        toast.error(`${e.field}: ${e.message}`);
-      });
+      if (err.errors) {
+        err.errors.forEach((error) => {
+          toast.error(error.msg, {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        });
+      } else {
+        toast.error("Something went wrong, please try again");
+      }
     }
   };
   return (
