@@ -102,7 +102,7 @@ function Header() {
           <div className="relative w-1/2" ref={searchRef}>
             <input
               type="text"
-              placeholder="Search videos..."
+              placeholder="Search..."
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
