@@ -69,7 +69,6 @@ function Register() {
             onChange={handleInput}
             value={formData.username}
           />
-          <p className="label">Username should be unique!</p>
 
           <label className="label">Email</label>
           <input
@@ -98,7 +97,6 @@ function Register() {
             onChange={handleInput}
             value={formData.password}
           />
-          <p className="label">Username should be unique!</p>
           <label className="label">Avatar</label>
           <input
             type="file"
