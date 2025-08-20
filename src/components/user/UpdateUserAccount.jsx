@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { updateData } from "../utils";
+import { toast } from "react-toastify";
 
 function UpdateUserAccount() {
   document.title = "VideoTube - Update account";
@@ -26,8 +27,26 @@ function UpdateUserAccount() {
       { ...formData },
       "PATCH",
     );
-    if (data) {
-      navigate("/");
+    try {
+      if (data) {
+        navigate("/");
+      }
+    } catch (err) {
+      if (err.errors) {
+        err.errors.forEach((error) => {
+          toast.error(error.msg, {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        });
+      } else {
+        toast.error("Something went wrong, please try again", {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "dark",
+        });
+      }
     }
   };
   return (

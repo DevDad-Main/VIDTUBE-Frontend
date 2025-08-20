@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { updateData } from "../utils";
-
+import { toast } from "react-toastify";
 function ChangePassword() {
   document.title = "VideoTube - Change Password";
 
@@ -26,9 +26,28 @@ function ChangePassword() {
     let data = await updateData("api/v1/users/change-password", {
       ...formData,
     });
-    if (data) {
-      alert("Password changed successfully");
-      navigate("/");
+
+    try {
+      if (data) {
+        alert("Password changed successfully");
+        navigate("/");
+      }
+    } catch (err) {
+      if (err.errors) {
+        err.errors.forEach((error) => {
+          toast.error(error.msg, {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        });
+      } else {
+        toast.error("Something went wrong, please try again", {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "dark",
+        });
+      }
     }
   };
 
@@ -42,7 +61,7 @@ function ChangePassword() {
           <input
             type="password"
             className="input"
-            placeholder="enter you old password!"
+            placeholder="Enter old password!"
             name="oldPassword"
             onChange={handleInput}
             value={formData.oldPassword}
@@ -52,7 +71,7 @@ function ChangePassword() {
           <input
             type="password"
             className="input"
-            placeholder="enter new password!"
+            placeholder="Enter new password!"
             name="newPassword"
             onChange={handleInput}
             value={formData.newPassword}
