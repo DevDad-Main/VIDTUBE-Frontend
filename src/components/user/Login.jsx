@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { updateData } from "../utils";
+import { toast } from "react-toastify";
 
 function Login() {
   document.title = "VideoTube - Login";
@@ -26,10 +27,28 @@ function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const data = await updateData("api/v1/users/login", { ...formData });
-    if (data) {
-      sessionStorage.setItem("token", data?.accessToken);
-      navigate("/");
+    try {
+      const data = await updateData("api/v1/users/login", { ...formData });
+      if (data) {
+        sessionStorage.setItem("token", data?.accessToken);
+        navigate("/");
+      }
+    } catch (err) {
+      if (err.errors) {
+        err.errors.forEach((error) => {
+          toast.error(error.msg, {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        });
+      } else {
+        toast.error("Something went wrong, please try again", {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "dark",
+        });
+      }
     }
   };
   return (

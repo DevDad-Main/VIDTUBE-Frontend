@@ -54,7 +54,11 @@ function Register() {
           });
         });
       } else {
-        toast.error("Something went wrong, please try again");
+        toast.error("Something went wrong, please try again", {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "dark",
+        });
       }
     }
   };
