@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { updateWithFormData } from "../utils";
-import toast from "react-toastify";
+import { toast } from "react-toastify";
 
 function Register() {
   document.title = "VideoTube - Register";
