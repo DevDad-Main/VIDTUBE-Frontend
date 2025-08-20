@@ -39,14 +39,14 @@ function Register() {
         formDataToSend,
       );
 
-      if (data.success) {
-        alert("User created successfully");
+      if (data) {
+        alert("User created successfully 🎉");
         navigate("/login");
       }
     } catch (err) {
+      console.log(err);
       if (err.response?.status === 400) {
         const backendErrors = err.response.data.errors;
-        const newErrors = {};
         backendErrors.forEach((e) => {
           toast.error(`${e.field}: ${e.message}`);
         });

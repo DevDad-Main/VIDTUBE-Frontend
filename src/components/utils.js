@@ -17,14 +17,14 @@ async function updateWithFormData(
       toast.success(`${data.message}`, {
         position: "top-center",
         autoClose: 3000,
-        theme: "light",
+        theme: "dark",
       });
       return data.data;
     } else {
       toast.error(`${data.message}`, {
         position: "top-center",
         autoClose: 3000,
-        theme: "light",
+        theme: "dark",
       });
     }
   } catch (error) {
