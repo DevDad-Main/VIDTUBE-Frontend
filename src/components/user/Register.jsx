@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { updateWithFormData } from "../utils";
+import toast from "react-toastify";
 
 function Register() {
   document.title = "VideoTube - Register";
-
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -33,14 +33,26 @@ function Register() {
     formDataToSend.append("avatar", formData.avatar); // should be File
     formDataToSend.append("coverImage", formData.coverImage); // should be File
 
-    const data = await updateWithFormData(
-      "api/v1/users/register",
-      formDataToSend,
-    );
-    console.log(data);
-    if (data) {
-      alert("User created successfully");
-      navigate("/login");
+    try {
+      const data = await updateWithFormData(
+        "api/v1/users/register",
+        formDataToSend,
+      );
+
+      if (data.success) {
+        alert("User created successfully");
+        navigate("/login");
+      }
+    } catch (err) {
+      if (err.response?.status === 400) {
+        const backendErrors = err.response.data.errors;
+        const newErrors = {};
+        backendErrors.forEach((e) => {
+          toast.error(`${e.field}: ${e.message}`);
+        });
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     }
   };
   return (
@@ -48,7 +60,6 @@ function Register() {
       <form onSubmit={onSubmit}>
         <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
           <legend className="fieldset-legend">Registeration form</legend>
-
           <label className="label">Username</label>
           <input
             type="text"
@@ -58,7 +69,7 @@ function Register() {
             onChange={handleInput}
             value={formData.username}
           />
-          <p className="label">Username shouldbe unique!</p>
+          <p className="label">Username should be unique!</p>
 
           <label className="label">Email</label>
           <input
@@ -69,7 +80,6 @@ function Register() {
             onChange={handleInput}
             value={formData.email}
           />
-
           <label className="label">Fullname</label>
           <input
             type="text"
@@ -79,7 +89,6 @@ function Register() {
             onChange={handleInput}
             value={formData.fullname}
           />
-
           <label className="label">Password</label>
           <input
             type="password"
@@ -89,7 +98,7 @@ function Register() {
             onChange={handleInput}
             value={formData.password}
           />
-
+          <p className="label">Username should be unique!</p>
           <label className="label">Avatar</label>
           <input
             type="file"
@@ -104,7 +113,6 @@ function Register() {
               console.log(e.target.files[0]);
             }}
           />
-
           <label className="label">Cover image</label>
           <input
             type="file"
@@ -118,7 +126,6 @@ function Register() {
               }))
             }
           />
-
           <button type="submit" className="btn btn-sm">
             Submit
           </button>
