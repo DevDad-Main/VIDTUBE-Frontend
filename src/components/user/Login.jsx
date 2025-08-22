@@ -1,89 +1,87 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { updateData } from "../utils";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router";
+import { fetchData } from "../utils.js";
 
-function Login() {
-  document.title = "VideoTube - Login";
+function HomePage() {
+  document.title = `Vidtube`;
 
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const [videos, setVideos] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(6); // default per-page
+  const [hasMore, setHasMore] = useState(true); // track if there are more videos
 
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-  sessionStorage.clear();
-
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    // console.log({...formData});
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await updateData("api/v1/users/login", { ...formData });
-      if (data) {
-        sessionStorage.setItem("token", data?.accessToken);
-        navigate("/");
-      }
-    } catch (err) {
-      if (err.errors) {
-        err.errors.forEach((error) => {
-          toast.error(error.msg, {
-            position: "top-center",
-            autoClose: 3000,
-            theme: "dark",
-          });
-        });
-      } else {
-        toast.error("Something went wrong, please try again", {
-          position: "top-center",
-          autoClose: 3000,
-          theme: "dark",
-        });
-      }
+  const fetchVideos = async (pageNum) => {
+    const data = await fetchData(
+      `api/v1/videos/feed?page=${pageNum}&limit=${limit}`,
+    );
+    if (data && data.data) {
+      setVideos(data.data); // assuming your ApiResponse looks like { status, data, message }
+      setHasMore(data.data.length === limit); // if we got less than "limit", no more pages
     }
   };
+
+  useEffect(() => {
+    fetchVideos(page);
+  }, [page]);
+
   return (
-    <div className="flex-center pt-7">
-      <form onSubmit={onSubmit}>
-        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-          <legend className="fieldset-legend">Login</legend>
+    <div className="flex flex-col items-center">
+      {/* Video Grid */}
+      <div className="flex-center flex-wrap gap-6 p-4">
+        {videos?.map((video) => (
+          <div key={video._id}>
+            <div className="card bg-base-100 w-96 h-[400px] shadow-2xl transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+              <NavLink to={`/video/${video._id}`} className="cursor-pointer">
+                <figure>
+                  <div className="w-[600px] h-[250px]">
+                    <img
+                      src={video.thumbnail.url}
+                      alt={video.title}
+                      className="w-[600px] h-[250px] object-cover rounded-t-lg"
+                    />
+                  </div>
+                </figure>
 
-          <label className="label">Username</label>
-          <input
-            type="text"
-            className="input"
-            placeholder="Username"
-            name="username"
-            onChange={handleInput}
-            value={formData.username}
-          />
+                <div className="card-body">
+                  <h2 className="card-title">{video.title}</h2>
+                  <p className="line-clamp-2">{video.description}</p>
+                  <div className="card-actions justify-start items-center">
+                    <img
+                      className="mask mask-circle"
+                      src={video.owner?.avatar?.url}
+                      width="60"
+                    />
+                    <p>{video.owner?.username}</p>
+                  </div>
+                </div>
+              </NavLink>
+            </div>
+          </div>
+        ))}
+      </div>
 
-          <label className="label">Password</label>
-          <input
-            type="password"
-            className="input"
-            placeholder="Password"
-            name="password"
-            onChange={handleInput}
-            value={formData.password}
-          />
+      {/* Pagination Controls */}
+      <div className="flex gap-4 p-4">
+        <button
+          className="btn btn-primary"
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page === 1}
+        >
+          Previous
+        </button>
 
-          <button className="btn btn-neutral mt-4" type="submit">
-            Login
-          </button>
-        </fieldset>
-      </form>
+        <span className="font-semibold">Page {page}</span>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => setPage((p) => p + 1)}
+          disabled={!hasMore}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
 
-export default Login;
+export default HomePage;
