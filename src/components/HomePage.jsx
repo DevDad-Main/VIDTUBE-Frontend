@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import { fetchData } from "./utils";
+import Pagination from "./Pagination.jsx";
 
 function HomePage() {
   document.title = `Vidtube`;
 
   const [videos, setVideos] = useState([]);
-  const [page, setPage] = useState(1);
-  const [limit] = useState(5); // default per-page
+  const [limit] = useState(4); // default per-page
   const user = sessionStorage.getItem("token");
   const [hasMore, setHasMore] = useState(true); // track if there are more videos
+  const [page, setPage] = useState(() => {
+    return parseInt(sessionStorage.getItem("page")) || 1;
+  });
+  const [totalPages, setTotalPages] = useState(1);
   const isLoggedIn = !!user;
+
+  useEffect(() => {
+    sessionStorage.setItem("page", page);
+  }, [page]);
 
   const fetchVideos = async (pageNum) => {
     try {
@@ -21,6 +29,7 @@ function HomePage() {
         console.log(data);
         setVideos(data.videos);
         setHasMore(data.currentPage < data.totalPages);
+        setTotalPages(data.totalPages);
       }
     } catch (error) {
       console.log(error);
@@ -67,26 +76,8 @@ function HomePage() {
         ))}
       </div>
       {/* Pagination Controls */}
-      {isLoggedIn && (
-        <div className="flex gap-4 p-4">
-          <button
-            className="btn btn-primary"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-          >
-            Previous
-          </button>
-
-          <span className="font-semibold">Page {page}</span>
-
-          <button
-            className="btn btn-primary"
-            onClick={() => setPage((p) => p + 1)}
-            disabled={!hasMore}
-          >
-            Next
-          </button>
-        </div>
+      {isLoggedIn && videos.length > 0 && (
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
       )}
     </div>
   );
