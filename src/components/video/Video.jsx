@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useParams } from "react-router";
 import CommentsComp from "./CommentsComp";
 import { fetchData, updateData } from "../utils";
 import { AddToPlaylistBtn } from "..";
-import { FaThumbsUp } from "react-icons/fa";
+import { FaThumbsUp, FaTrash } from "react-icons/fa";
 
 function Video() {
   document.title = `VideoTube - Explore videos`;
@@ -143,7 +143,7 @@ function Video() {
                 className="btn btn-error absolute right-3"
                 onClick={deleteVideo}
               >
-                Delete Video
+                <FaTrash />
               </button>
             ) : null}
           </div>
@@ -160,7 +160,7 @@ function Video() {
               <form onSubmit={updateComment}>
                 <input
                   type="text"
-                  className="input join-item w-full sm:max-w-sm md:max-w-md lg:max-w-lg"
+                  className="input join-item w-full sm:max-w-md md:max-w-lg lg:max-w-xl"
                   placeholder="Write your comment here..."
                   value={sendComment}
                   onChange={(e) => setSendComment(e.target.value)}
