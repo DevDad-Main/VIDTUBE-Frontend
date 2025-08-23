@@ -140,7 +140,7 @@ function Video() {
             <AddToPlaylistBtn id={data._id} />
             {isOwner ? (
               <button
-                className="btn btn-error absolute right-4"
+                className="btn btn-error absolute right-3"
                 onClick={deleteVideo}
               >
                 Delete Video
@@ -154,13 +154,13 @@ function Video() {
           <CommentsComp comments={comments} setComments={setComments} />
 
           {/* <div className="flex-center w-1/2"> */}
-          <fieldset className="fieldset bg-base-200 border-base-300 rounded-box sm:w-xl md:3xl w-7xl border p-4 ">
+          <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl border p-4 mx-auto">
             <legend className="fieldset-legend">Comment</legend>
             <div className="join">
               <form onSubmit={updateComment}>
                 <input
                   type="text"
-                  className="input join-item sm:w-lg md:w-lg lg:w-xl w-5xl"
+                  className="input join-item w-full sm:max-w-sm md:max-w-md lg:max-w-lg"
                   placeholder="Write your comment here..."
                   value={sendComment}
                   onChange={(e) => setSendComment(e.target.value)}
