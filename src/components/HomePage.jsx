@@ -19,9 +19,8 @@ function HomePage() {
       );
       if (data) {
         console.log(data);
-        setVideos(data.videos); // assuming your ApiResponse looks like { status, data, message }
-        setHasMore(data.totalPages === limit); // if we got less than "limit", no more pages
-        // setHasMore(data.currentPage < data.totalPages);
+        setVideos(data.videos);
+        setHasMore(data.currentPage < data.totalPages);
       }
     } catch (error) {
       console.log(error);
@@ -67,30 +66,28 @@ function HomePage() {
           </div>
         ))}
       </div>
-      {/* {/* Pagination Controls */}
-      {/* {isLoggedIn && */}
-      {/*   videos.length > */}
-      {/*     0( */}
-      {/*       <div className="flex gap-4 p-4"> */}
-      {/*         <button */}
-      {/*           className="btn btn-primary" */}
-      {/*           onClick={() => setPage((p) => Math.max(1, p - 1))} */}
-      {/*           disabled={page === 1} */}
-      {/*         > */}
-      {/*           Previous */}
-      {/*         </button> */}
-      {/**/}
-      {/*         <span className="font-semibold">Page {page}</span> */}
-      {/**/}
-      {/*         <button */}
-      {/*           className="btn btn-primary" */}
-      {/*           onClick={() => setPage((p) => p + 1)} */}
-      {/*           disabled={!hasMore} */}
-      {/*         > */}
-      {/*           Next */}
-      {/*         </button> */}
-      {/*       </div>, */}
-      {/*     )} */}
+      {/* Pagination Controls */}
+      {isLoggedIn && (
+        <div className="flex gap-4 p-4">
+          <button
+            className="btn btn-primary"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
+            Previous
+          </button>
+
+          <span className="font-semibold">Page {page}</span>
+
+          <button
+            className="btn btn-primary"
+            onClick={() => setPage((p) => p + 1)}
+            disabled={!hasMore}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

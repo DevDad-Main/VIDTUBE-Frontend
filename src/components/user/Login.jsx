@@ -10,7 +10,6 @@ function Login() {
 
   const [formData, setFormData] = useState({
     username: "",
-
     password: "",
   });
 
@@ -23,7 +22,6 @@ function Login() {
 
     setFormData((prev) => ({
       ...prev,
-
       [name]: value,
     }));
 
